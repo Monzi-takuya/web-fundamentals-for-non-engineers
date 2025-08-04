@@ -87,29 +87,50 @@ sequenceDiagram
 
 ### DOMとは
 
-**DOM**（Document Object Model）とは、HTMLドキュメントをJavaScriptから操作できる形に変換した「オブジェクトツリー」です。
+**DOM**（Document Object Model）とは、**ブラウザがHTMLを解析して作成する「オブジェクトツリー」**です。JavaScriptはこのDOMツリーを通じてHTMLの内容を操作します。
+
+**HTMLからDOMへの変換プロセス：**
+
+```mermaid
+sequenceDiagram
+    participant B as ブラウザ
+    participant H as HTMLファイル
+    participant D as DOMツリー
+    participant J as JavaScript
+    
+    B->>H: HTMLファイル読み込み
+    B->>B: HTMLを解析（パース）
+    B->>D: DOMツリー作成
+    Note over D: HTMLの各要素が<br/>オブジェクトとして構築
+    J->>D: DOMツリーを操作
+    D->>B: 画面に反映
+```
 
 **DOMの基本概念：**
 ```html
-<!-- HTML -->
+<!-- 1. ブラウザがこのHTMLを解析 -->
 <button id="search-btn">検索</button>
 ```
 ```javascript
-// JavaScript でボタンを操作
+// 2. 解析結果のDOMツリーを JavaScript で操作
 document.getElementById('search-btn').textContent = '検索中...';
 ```
 
 **日常生活での例え：**
-DOMは「ラジコン操縦」のようなものです。
-- **HTML**: 実際のラジコンカー（物理的な構造）
-- **DOM**: ラジコンとリモコンを繋ぐ電波（操作するための仕組み）
-- **JavaScript**: リモコン（具体的な操作指示）
+DOMは「設計図から模型を作る」プロセスのようなものです。
+- **HTML**: 建物の設計図（静的な情報）
+- **ブラウザのパース処理**: 設計図を見ながら模型を組み立てる
+- **DOM**: 完成した立体模型（操作可能な構造体）
+- **JavaScript**: 模型の部品を動かす手（具体的な操作）
 
 **DOMでできること：**
 - テキストの内容を変更する
 - 新しい要素を追加・削除する
 - スタイル（色、サイズ）を変更する
 - ユーザーの操作に反応する
+```
+<html>
+<body>
     <header>
         <h1 id="site-title">求人検索アプリ</h1>
         <nav>

@@ -248,10 +248,10 @@ if __name__ == '__main__':
 **URL**（Uniform Resource Locator）は、インターネット上の資源の在り処を示す住所です。
 
 ```
-https://example.com:443/search?keyword=python#results
- ↑      ↑          ↑    ↑                  ↑
-プロト  ドメイン名   ポート パス              フラグメント
-コル                番号   とクエリ
+https://user:pass@example.com:443/search?keyword=python#results
+ ↑      ↑         ↑          ↑    ↑                  ↑
+プロト  認証情報   ドメイン名   ポート パス              フラグメント
+コル    (省略可)              番号   とクエリ
 ```
 
 ### 各部分の説明
@@ -259,11 +259,173 @@ https://example.com:443/search?keyword=python#results
 | 部分 | 役割 | 例 |
 |------|------|----|
 | **プロトコル** | 通信方法の指定 | `https://` |
+| **認証情報** | ユーザー認証（省略可） | `user:pass@` |
 | **ドメイン名** | サーバーの住所 | `example.com` |
 | **ポート番号** | サーバー内の窓口 | `:443` |
 | **パス** | サーバー内の場所 | `/search` |
 | **クエリ** | 検索条件など | `?keyword=python` |
 | **フラグメント** | ページ内の特定箇所 | `#results` |
+
+### プロトコル：通信方法の指定
+
+**プロトコル**は、ブラウザとサーバーがどのような方法で通信するかを指定します。
+
+**主要なプロトコル：**
+```
+https://  → HTTP over SSL/TLS（暗号化された安全な通信）
+http://   → HTTP（暗号化されていない通信）
+ftp://    → File Transfer Protocol（ファイル転送専用）
+file://   → ローカルファイルへの直接アクセス
+```
+
+**Webディレクターとしてのポイント：**
+- **HTTPS必須**：現代のWebサイトでは、SEO・セキュリティの観点からHTTPS化が必須
+- **HTTPの段階的廃止**：多くのブラウザがHTTPサイトに警告を表示
+- **混在コンテンツ警告**：HTTPSサイト内でHTTPリソースを読み込むとブラウザが警告
+
+### 認証情報：ユーザー識別のための仕組み
+
+**認証情報**は、ユーザー名とパスワードをURLに直接埋め込む方式です。**2025年現在では推奨されませんが**、古いシステムや特定の用途で使用されることがあります。
+
+```
+基本形式：protocol://username:password@domain.com/path
+```
+
+**BASIC認証の例：**
+```
+https://admin:secret123@example.com/admin/
+→ ユーザー名「admin」、パスワード「secret123」でアクセス
+```
+
+**FTP接続の例：**
+```
+ftp://user:password@ftp.example.com/uploads/
+→ FTPサーバーにuser/passwordでログインし、uploadsフォルダにアクセス
+```
+
+**⚠️ セキュリティ上の重要な注意点：**
+- **URLに認証情報が露出**：ブラウザ履歴、サーバーログ、リファラーに記録される危険性
+- **暗号化されない**：HTTPの場合、認証情報が平文で送信される
+- **現代的な代替手段**：OAuth、JWT、セッション管理などが推奨
+- **使用すべき場面**：開発環境での一時的な保護、レガシーシステムとの互換性維持のみ
+
+**Webディレクターとしてのポイント：**
+古いシステムから移行する際や、開発者から「BASIC認証」という言葉が出た場合の理解に必要です。本番環境では使用を避け、より安全な認証方式を採用しましょう。
+
+### ドメイン名とホスト：サーバーの住所
+
+**ドメイン名**は、前章で学んだIPアドレスの覚えやすい別名です。URLの中核となる部分です。
+
+```
+サブドメイン例：
+blog.example.com     → ブログ用のサブドメイン
+api.example.com      → API専用のサブドメイン
+cdn.example.com      → 静的ファイル配信用
+staging.example.com  → ステージング環境用
+```
+
+**実際のWebプロジェクトでの活用：**
+- **本番環境**：`myservice.com`
+- **ステージング環境**：`staging.myservice.com`
+- **開発用API**：`dev-api.myservice.com`
+- **管理画面**：`admin.myservice.com`
+
+### ポート番号：サービスの入口（詳細版）
+
+**ポート番号**は、一つのサーバーで複数のサービスを提供する際の入口番号です。
+
+**標準ポート（通常省略される）：**
+```
+https://example.com/     → :443が省略されている
+http://example.com/      → :80が省略されている
+```
+
+**開発環境でよく使われるポート：**
+```
+http://localhost:3000/   → React開発サーバー
+http://localhost:5000/   → Flask/Python開発サーバー
+http://localhost:8080/   → Java/Tomcat開発サーバー
+http://localhost:3306/   → MySQL管理画面（phpMyAdmin等）
+```
+
+**カスタムポートの例：**
+```
+https://example.com:8443/secure/
+→ 443以外のポートでHTTPS通信
+```
+
+### パス：サーバー内の場所指定
+
+**パス**は、サーバー内のフォルダ構造やファイルの場所を指定します。
+
+**静的ファイルのパス例：**
+```
+/images/logo.png         → 画像ファイル
+/css/style.css          → スタイルシート
+/js/app.js              → JavaScriptファイル
+/documents/manual.pdf    → PDFファイル
+```
+
+**動的ページのパス例：**
+```
+/products/123           → 商品ID123の詳細ページ
+/users/profile          → ユーザープロフィールページ
+/api/v1/users          → API バージョン1のユーザー情報
+/admin/dashboard        → 管理者ダッシュボード
+```
+
+**階層構造の理解：**
+```
+/category/subcategory/item
+   ↑        ↑         ↑
+  大分類    小分類    個別項目
+```
+
+### クエリパラメータ：データの送信方法
+
+**クエリパラメータ**は、サーバーに追加情報を送信するための仕組みです。`?`の後に続けて記述します。
+
+**基本的な形式：**
+```
+?key1=value1&key2=value2&key3=value3
+```
+
+**実際の使用例：**
+```
+検索機能：
+/search?keyword=python&location=東京&salary=500万以上
+
+ページング：
+/products?page=2&per_page=10&sort=price_asc
+
+フィルタリング：
+/jobs?category=engineering&experience=3years&remote=true
+```
+
+**特殊文字のエンコーディング：**
+```
+スペース：%20 または +
+日本語：%E6%9D%B1%E4%BA%AC （「東京」をUTF-8エンコード）
+```
+
+**アクセス解析・広告計測での活用：**
+```
+Google Analytics（UTMパラメータ）：
+/campaign-page?utm_source=google&utm_medium=cpc&utm_campaign=spring2025
+
+メール配信効果測定：
+/newsletter-article?utm_source=newsletter&utm_content=button1
+
+広告計測・アフィリエイト：
+/product/123?ref=affiliate&campaign_id=summer2025&click_id=abc123
+```
+
+**Webディレクターとしてのポイント：**
+- **SEO影響**：クエリパラメータはSEOに影響する場合がある
+- **ユーザビリティ**：長すぎるURLはユーザーが共有しにくい
+- **分析活用**：Google Analyticsでパラメータ別の分析が可能
+- **マーケティング計測**：広告効果・メール配信・SNS投稿の成果測定に必須
+- **プライバシー配慮**：2025年現在、個人を特定可能な情報の取り扱いには注意が必要
 
 ### フラグメント（#）：ページ内ジャンプの仕組み
 
@@ -447,10 +609,13 @@ def search():
 **URL構造：**
 - トップページ: `http://localhost:5000/`
 - 検索結果: `http://localhost:5000/search?keyword=python&location=東京`
+- 管理画面（開発時のBASIC認証）: `http://admin:dev123@localhost:5000/admin/`
 
 **本番環境では：**
 - トップページ: `https://jobsearch.example.com/`
 - 検索結果: `https://jobsearch.example.com/search?keyword=python&location=東京`
+- API エンドポイント: `https://api.jobsearch.example.com/v1/jobs?category=engineering`
+- 管理画面: `https://admin.jobsearch.example.com/dashboard/`（認証情報はURLに含めない）
 
 ## まとめ
 
@@ -458,7 +623,7 @@ def search():
 - **IPアドレス**はインターネット上の住所、**ドメイン名**は覚えやすい別名
 - **DNS**はドメイン名をIPアドレスに変換する電話帳のような仕組み
 - **localhost**は自分のコンピューターを指す特別な住所
-- **URL**はWebページへの完全な道案内、プロトコル・ドメイン・パス等で構成
+- **URL**はWebページへの完全な道案内：プロトコル・認証情報・ドメイン・ポート・パス・クエリ・フラグメントで構成
 - **HTTPS**は暗号化による安全な通信、現代のWebサイトでは必須
 - Webディレクターはドメイン・サーバー・CDNの基本概念を理解することで、技術的な議論に参加できる
 
@@ -482,9 +647,12 @@ def search():
 | **URL** | ユーアールエル | Webページの住所を示す文字列 |
 | **HTTP** | エイチティーティーピー | Webサイトとブラウザ間の通信プロトコル |
 | **HTTPS** | エイチティーティーピーエス | HTTPを暗号化した安全な通信プロトコル |
+| **FTP** | エフティーピー | File Transfer Protocol（ファイル転送専用プロトコル） |
+| **BASIC認証** | ベーシック認証 | ユーザー名・パスワードをURLに埋め込む認証方式 |
 | **ポート番号** | - | サーバー内のサービス入口番号（80:HTTP、443:HTTPS） |
 | **localhost** | ローカルホスト | 自分自身のコンピューターを指す特別なドメイン名 |
 | **フラグメント** | - | URL内でページ内の特定箇所を指定する部分（#以降） |
+| **クエリパラメータ** | - | URL内でサーバーにデータを送信する部分（?以降） |
 
 ### サーバー・インフラ用語
 
