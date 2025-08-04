@@ -1,0 +1,188 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">ℹ️ このアプリについて</h1>
+    <p class="page-subtitle">Step {{ step_info.current_step }} / {{ step_info.total_steps }}: {{ step_info.step_name }}</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 現在のステップ説明 -->
+<section class="current-step-section">
+    <div class="step-card current">
+        <h2>🎯 Step {{ step_info.current_step }}: {{ step_info.step_name }}</h2>
+        
+        <div class="step-description">
+            <p>このステップでは、FlaskアプリケーションでHTMLテンプレートとCSSを使用して、Webページを作成する方法を学習します。</p>
+            
+            <h3>🎓 学習目標</h3>
+            <ul class="learning-objectives">
+                <li>HTMLテンプレートエンジン（Jinja2）の理解と活用</li>
+                <li>ベーステンプレートによるHTML構造管理</li>
+                <li>基本的なCSSによるスタイリング</li>
+                <li>静的ファイル（CSS、画像）の管理方法</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- 実装済み機能一覧 -->
+<section class="features-section">
+    <h2>✨ 実装済み機能</h2>
+    <div class="features-grid">
+        {% for feature in features %}
+        <div class="feature-card {{ feature.status }}">
+            <div class="feature-header">
+                <h3>{{ feature.name }}</h3>
+                <span class="status-badge {{ feature.status }}">
+                    {% if feature.status == 'implemented' %}✅ 実装済み
+                    {% elif feature.status == 'in_progress' %}🔄 開発中
+                    {% else %}⏳ 未実装
+                    {% endif %}
+                </span>
+            </div>
+            <p class="feature-description">{{ feature.description }}</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- 技術スタック説明 -->
+<section class="tech-stack-section">
+    <h2>🛠️ 使用技術</h2>
+    <div class="tech-stack-grid">
+        <div class="tech-card">
+            <div class="tech-icon">🐍</div>
+            <h3>Python + Flask</h3>
+            <p>軽量で学習しやすいWebフレームワーク</p>
+            <div class="tech-details">
+                <ul>
+                    <li>ルーティング機能</li>
+                    <li>テンプレートエンジン統合</li>
+                    <li>静的ファイル配信</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="tech-card">
+            <div class="tech-icon">🏗️</div>
+            <h3>Jinja2テンプレート</h3>
+            <p>PythonのHTMLテンプレートエンジン</p>
+            <div class="tech-details">
+                <ul>
+                    <li>テンプレート継承</li>
+                    <li>変数埋め込み</li>
+                    <li>条件分岐・ループ</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="tech-card">
+            <div class="tech-icon">🎨</div>
+            <h3>基本的なCSS</h3>
+            <p>色・フォント・レイアウトの設定</p>
+            <div class="tech-details">
+                <ul>
+                    <li>色とフォントの指定</li>
+                    <li>パディング・マージン</li>
+                    <li>基本的なレスポンシブ</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ファイル構成の説明 -->
+<section class="file-structure-section">
+    <h2>📁 ファイル構成</h2>
+    <div class="file-structure">
+        <div class="file-tree">
+            step02_html_css/<br>
+            ├── app.py (メインアプリケーション)<br>
+            ├── templates/<br>
+            │&nbsp;&nbsp;&nbsp;├── base.html (ベーステンプレート)<br>
+            │&nbsp;&nbsp;&nbsp;├── todo_list.html (ToDoリストページ)<br>
+            │&nbsp;&nbsp;&nbsp;└── about.html (このページ)<br>
+            └── static/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;└── css/<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── style.css (スタイルシート)
+        </div>
+    </div>
+</section>
+
+<!-- 学習の進め方 -->
+<section class="learning-guide-section">
+    <h2>📖 学習の進め方</h2>
+    <div class="learning-steps">
+        <div class="learning-step completed">
+            <h3>✅ Step 1: Flask基礎</h3>
+            <p>Hello Worldアプリケーションの作成、ルーティング、仮想環境の理解</p>
+        </div>
+        
+        <div class="learning-step current">
+            <h3>🔄 Step 2: HTML + CSS (現在)</h3>
+            <p>テンプレートエンジン、基本的なCSS、静的ファイル管理の学習</p>
+            <div class="current-tasks">
+                <h4>✨ このステップで実装された機能：</h4>
+                <ul>
+                    <li>Jinja2テンプレートエンジンの活用</li>
+                    <li>ベーステンプレートによるHTML構造の共通化</li>
+                    <li>基本的なCSSによるスタイリング</li>
+                    <li>統計情報とプログレスバーの表示</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="learning-step pending">
+            <h3>⏳ Step 3: JavaScript DOM操作</h3>
+            <p>動的なインタラクション、DOM操作、イベントハンドリングの実装</p>
+        </div>
+        
+        <div class="learning-step pending">
+            <h3>⏳ Step 4: フォーム処理</h3>
+            <p>POST リクエスト、フォームデータ処理、CRUD操作の基礎</p>
+        </div>
+        
+        <div class="learning-step pending">
+            <h3>⏳ Step 5: データベース連携</h3>
+            <p>SQLite連携、データの永続化、完全なWebアプリケーション完成</p>
+        </div>
+    </div>
+</section>
+
+<!-- 次のステップへのナビゲーション -->
+<section class="next-step-section">
+    <div class="next-step-card">
+        <h2>🎯 次のステップ</h2>
+        <h3>Step 3: {{ step_info.next_step }}</h3>
+        <p>HTMLテンプレートとCSSでのWebページ作成を学習したら、次はJavaScriptを使って動的なインタラクション機能を追加しましょう！</p>
+        
+        <div class="next-features">
+            <h4>Step 3で実装予定の機能：</h4>
+            <ul>
+                <li>🖱️ ボタンクリックでのタスク操作</li>
+                <li>✅ チェックボックスでの完了状態切り替え</li>
+                <li>➕ 動的なタスク追加機能</li>
+                <li>🗑️ タスクの削除機能</li>
+            </ul>
+        </div>
+        
+        <div class="cta-buttons">
+            <a href="{{ url_for('index') }}" class="btn btn-primary">
+                📝 ToDoリストに戻る
+            </a>
+            <button class="btn btn-secondary" disabled>
+                ➡️ Step 3へ進む
+                <small>(準備中)</small>
+            </button>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- JavaScript機能はStep 3で実装予定 -->
+{% endblock %}

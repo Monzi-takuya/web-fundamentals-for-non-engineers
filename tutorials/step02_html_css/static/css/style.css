@@ -1,0 +1,537 @@
+/* 
+Step 2: HTML + CSS 基本スタイルシート
+Flask学習用ToDoアプリケーション - シンプル版
+*/
+
+/* ========================================
+   基本リセット
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+/* ========================================
+   基本レイアウト
+======================================== */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ========================================
+   ナビゲーション
+======================================== */
+.navbar {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 0;
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.step-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.nav-menu {
+    margin-top: 10px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   ページヘッダー
+======================================== */
+.page-header {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.page-subtitle {
+    font-size: 18px;
+    color: #666;
+}
+
+/* ========================================
+   統計カード
+======================================== */
+.stats-grid {
+    margin-bottom: 30px;
+}
+
+.stats-grid::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.stat-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+.stat-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-info h3 {
+    font-size: 28px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.stat-info p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* ========================================
+   プログレスバー
+======================================== */
+.progress-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.progress-label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #007bff;
+    border-radius: 10px;
+    transition: width 1s ease-in-out;
+}
+
+/* ========================================
+   セクション
+======================================== */
+.section-header {
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* ========================================
+   ToDoカード
+======================================== */
+.todos-grid::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.todo-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #007bff;
+}
+
+.todo-card.completed {
+    opacity: 0.7;
+    border-left-color: #28a745;
+}
+
+.todo-header {
+    margin-bottom: 15px;
+}
+
+.todo-header::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.todo-status {
+    float: left;
+}
+
+.status-icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.status-text {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.todo-priority {
+    float: right;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.priority-high { 
+    background-color: #ffebee; 
+    color: #d32f2f; 
+}
+
+.priority-medium { 
+    background-color: #fff8e1; 
+    color: #f57c00; 
+}
+
+.priority-low { 
+    background-color: #e8f5e8; 
+    color: #388e3c; 
+}
+
+.todo-body {
+    margin-bottom: 15px;
+}
+
+.todo-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.todo-description {
+    color: #666;
+    line-height: 1.5;
+}
+
+.todo-footer {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.todo-footer::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.todo-date {
+    float: left;
+    font-size: 14px;
+    color: #666;
+}
+
+.todo-actions {
+    float: right;
+}
+
+/* ========================================
+   ボタン
+======================================== */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* ========================================
+   空の状態
+======================================== */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.empty-state h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.empty-state p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* ========================================
+   学習セクション
+======================================== */
+.learning-section {
+    margin-top: 40px;
+}
+
+.learning-card {
+    background-color: #007bff;
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.learning-card h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.tech-grid::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.tech-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.tech-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.tech-info h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.tech-info p {
+    font-size: 14px;
+}
+
+.next-step-info {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+/* ========================================
+   フッター
+======================================== */
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 30px 0 15px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.footer-content::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.footer-section {
+    margin-bottom: 20px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    margin-bottom: 10px;
+    color: white;
+}
+
+.footer-section p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.footer-steps,
+.footer-links {
+    list-style: none;
+    text-align: left;
+    display: inline-block;
+}
+
+.footer-steps li,
+.footer-links li {
+    margin-bottom: 5px;
+    color: #ccc;
+}
+
+.footer-links a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #555;
+    color: #ccc;
+}
+
+/* ========================================
+   アラート
+======================================== */
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* ========================================
+   スマートフォン対応（基本的なレスポンシブ）
+======================================== */
+@media (width <= 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .page-header {
+        padding: 20px;
+    }
+    
+    .page-title {
+        font-size: 24px;
+    }
+    
+    .todo-footer {
+        text-align: center;
+    }
+    
+    .todo-date,
+    .todo-actions {
+        float: none;
+        margin-top: 10px;
+    }
+    
+    .nav-menu {
+        text-align: center;
+    }
+    
+    .footer-steps,
+    .footer-links {
+        text-align: center;
+    }
+}
+
+/* ========================================
+   PC用のレイアウト改善
+======================================== */
+@media (width >= 769px) {
+    .stats-grid {
+        /* PC版では横並び */
+    }
+    
+    .stat-card {
+        float: left;
+        width: 23%;
+        margin-right: 2.6%;
+    }
+    
+    .stat-card:last-child {
+        margin-right: 0;
+    }
+}

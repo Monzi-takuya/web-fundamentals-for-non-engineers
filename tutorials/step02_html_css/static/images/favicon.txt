@@ -1,0 +1,14 @@
+# Favicon Placeholder
+# 
+# 本来はfavicon.icoファイルを配置しますが、
+# 学習教材のため、テキストファイルで代用しています。
+# 
+# 実際の開発では、以下のような16x16pxのアイコンファイルを用意します：
+# - favicon.ico
+# - favicon-16x16.png  
+# - favicon-32x32.png
+# - apple-touch-icon.png
+#
+# オンラインツールで簡単に作成可能：
+# - https://favicon.io/
+# - https://realfavicongenerator.net/

@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">📝 ToDoリスト</h1>
+    <p class="page-subtitle">{{ current_date }} のタスク管理</p>
+    
+    <!-- 統計情報カード -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+                <h3>{{ stats.total }}</h3>
+                <p>総タスク数</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-info">
+                <h3>{{ stats.completed }}</h3>
+                <p>完了済み</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">⏰</div>
+            <div class="stat-info">
+                <h3>{{ stats.pending }}</h3>
+                <p>未完了</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-info">
+                <h3>{{ stats.completion_rate }}%</h3>
+                <p>完了率</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- プログレスバー -->
+    <div class="progress-section">
+        <div class="progress-label">
+            今日の進捗: {{ stats.completion_rate }}%
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ stats.completion_rate }}%"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="todos-section">
+    <div class="section-header">
+        <h2>📋 タスク一覧</h2>
+        <div class="action-buttons">
+            <!-- Step 4で追加ボタンを実装予定 -->
+            <button class="btn btn-primary" disabled>
+                ➕ 新しいタスクを追加
+                <small>(Step 4で実装予定)</small>
+            </button>
+        </div>
+    </div>
+    
+    {% if todos %}
+        <div class="todos-grid">
+            {% for todo in todos %}
+            <div class="todo-card {{ 'completed' if todo.completed else 'pending' }}">
+                <!-- タスクヘッダー -->
+                <div class="todo-header">
+                    <div class="todo-status">
+                        <span class="status-icon">{{ todo.completed | status_icon }}</span>
+                        <span class="status-text">
+                            {{ '完了' if todo.completed else '未完了' }}
+                        </span>
+                    </div>
+                    <div class="todo-priority priority-{{ todo.priority }}">
+                        {% if todo.priority == 'high' %}
+                            🔴 高優先度
+                        {% elif todo.priority == 'medium' %}
+                            🟡 中優先度
+                        {% else %}
+                            🟢 低優先度
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- タスク内容 -->
+                <div class="todo-body">
+                    <h3 class="todo-title">{{ todo.title }}</h3>
+                    <p class="todo-description">{{ todo.description }}</p>
+                </div>
+                
+                <!-- タスクフッター -->
+                <div class="todo-footer">
+                    <div class="todo-date">
+                        📅 {{ todo.created_at }}
+                    </div>
+                    <div class="todo-actions">
+                        <!-- Step 3でJavaScript、Step 4でフォーム処理を実装予定 -->
+                        <button class="btn btn-sm btn-secondary" disabled>
+                            ✏️ 編集
+                        </button>
+                        <button class="btn btn-sm btn-danger" disabled>
+                            🗑️ 削除
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- タスクが空の場合 -->
+        <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <h3>まだタスクがありません</h3>
+            <p>新しいタスクを追加して、ToDoリストを始めましょう！</p>
+            <button class="btn btn-primary" disabled>
+                ➕ 最初のタスクを追加
+                <small>(Step 4で実装予定)</small>
+            </button>
+        </div>
+    {% endif %}
+</section>
+
+<!-- 学習ポイント表示セクション -->
+<section class="learning-section">
+    <div class="learning-card">
+        <h3>🎓 Step 2で学習した内容</h3>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon">🏗️</div>
+                <div class="tech-info">
+                    <h4>HTMLテンプレート</h4>
+                    <p>Jinja2によるテンプレートエンジン</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">🎨</div>
+                <div class="tech-info">
+                    <h4>基本的なCSS</h4>
+                    <p>色・フォント・レイアウトの設定</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">📁</div>
+                <div class="tech-info">
+                    <h4>静的ファイル</h4>
+                    <p>CSS・画像ファイルの管理</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">🔄</div>
+                <div class="tech-info">
+                    <h4>テンプレート継承</h4>
+                    <p>ベーステンプレートの再利用</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="next-step-info">
+            <p><strong>次のステップ:</strong> Step 3ではJavaScriptを使って、これらのボタンを実装します！</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- JavaScript機能はStep 3で実装予定 -->
+{% endblock %}
