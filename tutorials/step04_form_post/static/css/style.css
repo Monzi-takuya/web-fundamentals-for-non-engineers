@@ -1,0 +1,990 @@
+/* 
+Step 4: HTML + CSS + フォーム処理 基本スタイルシート
+Flask学習用ToDoアプリケーション - フォーム送信・POST通信版
+*/
+
+/* ========================================
+   基本リセット
+======================================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f5f5f5;
+}
+
+/* ========================================
+   基本レイアウト
+======================================== */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ========================================
+   ナビゲーション
+======================================== */
+.navbar {
+    background-color: #007bff;
+    color: white;
+    padding: 15px 0;
+}
+
+.navbar h1 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.step-badge {
+    background-color: rgba(255, 255, 255, 0.2);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 14px;
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.nav-menu {
+    margin-top: 10px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    padding: 8px 15px;
+    margin-right: 10px;
+    border-radius: 4px;
+}
+
+.nav-link:hover,
+.nav-link.active {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ========================================
+   ページヘッダー
+======================================== */
+.page-header {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 32px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.page-subtitle {
+    font-size: 18px;
+    color: #666;
+}
+
+/* ========================================
+   統計カード
+======================================== */
+.stats-grid {
+    margin-bottom: 30px;
+}
+
+.stats-grid::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.stat-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    text-align: center;
+    width: 100%;
+}
+
+.stat-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.stat-info h3 {
+    font-size: 28px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.stat-info p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* ========================================
+   プログレスバー
+======================================== */
+.progress-section {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+}
+
+.progress-label {
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.progress-bar {
+    height: 20px;
+    background-color: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background-color: #007bff;
+    border-radius: 10px;
+    transition: width 1s ease-in-out;
+}
+
+/* ========================================
+   セクション
+======================================== */
+.section-header {
+    margin-bottom: 20px;
+}
+
+.section-header h2 {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+/* ========================================
+   ToDoカード
+======================================== */
+.todos-grid::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.todo-card {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-left: 4px solid #007bff;
+}
+
+.todo-card.completed {
+    opacity: 0.7;
+    border-left-color: #28a745;
+}
+
+.todo-header {
+    margin-bottom: 15px;
+}
+
+.todo-header::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.todo-status {
+    float: left;
+}
+
+.status-icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.status-text {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.todo-priority {
+    float: right;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.priority-high { 
+    background-color: #ffebee; 
+    color: #d32f2f; 
+}
+
+.priority-medium { 
+    background-color: #fff8e1; 
+    color: #f57c00; 
+}
+
+.priority-low { 
+    background-color: #e8f5e8; 
+    color: #388e3c; 
+}
+
+.todo-body {
+    margin-bottom: 15px;
+}
+
+.todo-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #333;
+}
+
+.todo-description {
+    color: #666;
+    line-height: 1.5;
+}
+
+.todo-footer {
+    border-top: 1px solid #eee;
+    padding-top: 15px;
+}
+
+.todo-footer::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.todo-date {
+    float: left;
+    font-size: 14px;
+    color: #666;
+}
+
+.todo-actions {
+    float: right;
+}
+
+/* ========================================
+   ボタン
+======================================== */
+.btn {
+    display: inline-block;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    text-decoration: none;
+    cursor: pointer;
+    margin-left: 5px;
+}
+
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-sm {
+    padding: 4px 8px;
+    font-size: 12px;
+}
+
+/* ========================================
+   空の状態
+======================================== */
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.empty-icon {
+    font-size: 48px;
+    margin-bottom: 20px;
+    color: #ccc;
+}
+
+.empty-state h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+.empty-state p {
+    color: #666;
+    margin-bottom: 20px;
+}
+
+/* ========================================
+   学習セクション
+======================================== */
+.learning-section {
+    margin-top: 40px;
+}
+
+.learning-card {
+    background-color: #007bff;
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.learning-card h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.tech-grid::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.tech-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.tech-icon {
+    font-size: 24px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.tech-info h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.tech-info p {
+    font-size: 14px;
+}
+
+.next-step-info {
+    text-align: center;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin-top: 20px;
+}
+
+/* ========================================
+   フッター
+======================================== */
+.footer {
+    background-color: #343a40;
+    color: white;
+    padding: 30px 0 15px;
+    margin-top: 40px;
+    text-align: center;
+}
+
+.footer-content::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.footer-section {
+    margin-bottom: 20px;
+}
+
+.footer-section h3,
+.footer-section h4 {
+    margin-bottom: 10px;
+    color: white;
+}
+
+.footer-section p {
+    color: #ccc;
+    line-height: 1.6;
+}
+
+.footer-steps,
+.footer-links {
+    list-style: none;
+    text-align: left;
+    display: inline-block;
+}
+
+.footer-steps li,
+.footer-links li {
+    margin-bottom: 5px;
+    color: #ccc;
+}
+
+.footer-links a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 15px;
+    border-top: 1px solid #555;
+    color: #ccc;
+}
+
+/* ========================================
+   アラート
+======================================== */
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+/* ========================================
+   スマートフォン対応（基本的なレスポンシブ）
+======================================== */
+@media (width <= 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .page-header {
+        padding: 20px;
+    }
+    
+    .page-title {
+        font-size: 24px;
+    }
+    
+    .todo-footer {
+        text-align: center;
+    }
+    
+    .todo-date,
+    .todo-actions {
+        float: none;
+        margin-top: 10px;
+    }
+    
+    .nav-menu {
+        text-align: center;
+    }
+    
+    .footer-steps,
+    .footer-links {
+        text-align: center;
+    }
+}
+
+/* ========================================
+   PC用のレイアウト改善
+======================================== */
+@media (width >= 769px) {
+    .stats-grid {
+        /* PC版では横並び */
+    }
+    
+    .stat-card {
+        float: left;
+        width: 23%;
+        margin-right: 2.6%;
+    }
+    
+    .stat-card:last-child {
+        margin-right: 0;
+    }
+}
+
+/* ========================================
+   JavaScript機能用追加スタイル（Step 3）
+======================================== */
+
+/* フィルターボタン */
+.filter-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+}
+
+.filter-buttons .btn.active {
+    background-color: #0056b3;
+    border-color: #004085;
+    transform: scale(1.05);
+}
+
+/* JavaScript機能説明エリア */
+.js-intro {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border-left: 4px solid #2196f3;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.js-intro h4 {
+    color: #1976d2;
+    margin-bottom: 10px;
+}
+
+/* メッセージエリア */
+.js-message-area {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+    max-width: 400px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.js-message-area .close-btn {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #666;
+}
+
+.js-message-area .close-btn:hover {
+    color: #333;
+}
+
+/* 学習用ボタンエリア */
+.learning-controls {
+    background: #f8f9fa;
+    border-radius: 12px;
+    padding: 20px;
+    border: 2px dashed #dee2e6;
+}
+
+.learning-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.learning-buttons .btn {
+    transition: all 0.3s ease;
+}
+
+.learning-buttons .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/* アニメーション効果 */
+.todo-card {
+    transition: all 0.3s ease;
+}
+
+.todo-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+}
+
+/* About ページのスタイル */
+.step-progress {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 20px 0;
+    flex-wrap: wrap;
+}
+
+.step-item {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    position: relative;
+    min-width: 120px;
+    margin: 10px 5px;
+}
+
+.step-number {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 10px;
+}
+
+.step-item.completed .step-number {
+    background-color: #28a745;
+}
+
+.step-item.current .step-number {
+    background-color: #007bff;
+    animation: pulse 2s infinite;
+}
+
+.step-item.upcoming .step-number {
+    background-color: #6c757d;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+.step-details h4 {
+    font-size: 14px;
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.step-details p {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+}
+
+/* デモセクション */
+.demo-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.demo-output {
+    min-height: 100px;
+    max-height: 300px;
+    overflow-y: auto;
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+}
+
+/* 解説セクション */
+.analogy {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.dom-examples {
+    background: #d1ecf1;
+    border: 1px solid #bee5eb;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 10px 0;
+}
+
+.importance-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.importance-item {
+    background: #f8f9fa;
+    border-left: 4px solid #007bff;
+    padding: 15px;
+    border-radius: 0 8px 8px 0;
+}
+
+.importance-item h4 {
+    color: #007bff;
+    margin-bottom: 10px;
+}
+
+/* タスク操作ボタンの改良 */
+.todo-toggle-btn {
+    margin-left: 5px;
+    font-size: 12px;
+}
+
+.todo-actions {
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+}
+
+/* カスタムプロパティ（テーマ変更用） */
+:root {
+    --primary-color: #007bff;
+    --secondary-color: #6c757d;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.navbar {
+    background-color: var(--primary-color);
+}
+
+/* ========================================
+   フォーム処理用追加スタイル（Step 4）
+======================================== */
+
+/* フォーム基本スタイル */
+.form-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e5e9;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.form-select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 5'%3E%3Cpath fill='%23666' d='M2 0L0 2h4zm0 5L0 3h4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    background-size: 16px;
+    padding-right: 48px;
+}
+
+/* フラッシュメッセージ */
+.flash-messages {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 16px 20px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border: 1px solid transparent;
+    position: relative;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+    color: #155724;
+}
+
+.alert-error {
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+    color: #721c24;
+}
+
+.alert-info {
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+    color: #0c5460;
+}
+
+/* ボタンスタイルの改良 */
+.btn-form {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-form:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.btn-primary-form {
+    background-color: #007bff;
+    color: white;
+}
+
+.btn-primary-form:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary-form {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-secondary-form:hover {
+    background-color: #545b62;
+}
+
+/* フォーム送信エリア */
+.form-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+    padding-top: 20px;
+    border-top: 1px solid #e1e5e9;
+    margin-top: 30px;
+}
+
+/* 削除確認フォーム */
+.delete-form {
+    display: inline-block;
+}
+
+.delete-form .btn {
+    background: none;
+    border: none;
+    padding: 0;
+    color: inherit;
+    cursor: pointer;
+}
+
+/* バリデーションエラー表示 */
+.form-error {
+    border-color: #dc3545 !important;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.1) !important;
+}
+
+.error-text {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 4px;
+    display: block;
+}
+
+/* 必須項目マーク */
+.required::after {
+    content: " *";
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* フォーム説明 */
+.form-help {
+    font-size: 14px;
+    color: #6c757d;
+    margin-top: 4px;
+}
+
+/* レスポンシブ対応の改良 */
+@media (max-width: 768px) {
+    .filter-buttons {
+        justify-content: center;
+    }
+    
+    .learning-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .step-progress {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .demo-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .js-message-area {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        right: 10px;
+        max-width: none;
+    }
+    
+    .form-container {
+        margin: 20px;
+        padding: 20px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    }
+    
+    .btn-form {
+        width: 100%;
+        justify-content: center;
+    }
+}

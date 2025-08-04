@@ -1,0 +1,136 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">✏️ タスクを編集</h1>
+    <p class="page-subtitle">データベースの更新処理（UPDATE）</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="POST" action="{{ url_for('update_todo', todo_id=todo.id) }}">
+        <!-- タスク情報表示 -->
+        <div class="db-info">
+            <div class="db-info-title">📋 編集中のタスク情報</div>
+            <p><strong>ID:</strong> {{ todo.id }}</p>
+            <p><strong>作成日:</strong> {{ todo.created_at }}</p>
+        </div>
+        
+        <!-- タイトル入力 -->
+        <div class="form-group">
+            <label for="title" class="form-label required">タスクのタイトル</label>
+            <input type="text" 
+                   id="title" 
+                   name="title" 
+                   class="form-input" 
+                   value="{{ todo.title }}"
+                   maxlength="200"
+                   required>
+            <small class="form-help">必須項目です（最大200文字）</small>
+        </div>
+        
+        <!-- 説明入力 -->
+        <div class="form-group">
+            <label for="description" class="form-label">詳細説明</label>
+            <textarea id="description" 
+                      name="description" 
+                      class="form-input form-textarea" 
+                      placeholder="タスクの詳細を入力してください（任意）"
+                      rows="4">{{ todo.description or '' }}</textarea>
+            <small class="form-help">任意項目です。空欄の場合は「なし」と記録されます</small>
+        </div>
+        
+        <!-- 優先度選択 -->
+        <div class="form-group">
+            <label for="priority" class="form-label">優先度</label>
+            <select id="priority" name="priority" class="form-input form-select">
+                <option value="high" {% if todo.priority == 'high' %}selected{% endif %}>🔴 高優先度</option>
+                <option value="medium" {% if todo.priority == 'medium' %}selected{% endif %}>🟡 中優先度</option>
+                <option value="low" {% if todo.priority == 'low' %}selected{% endif %}>🟢 低優先度</option>
+            </select>
+            <small class="form-help">現在の設定: {{ todo.priority }}</small>
+        </div>
+        
+        <!-- 完了状態 -->
+        <div class="form-group">
+            <label class="form-label">完了状態</label>
+            <div style="margin-top: 10px;">
+                <label style="display: flex; align-items: center; gap: 10px; font-weight: normal;">
+                    <input type="checkbox" 
+                           id="completed" 
+                           name="completed" 
+                           value="1"
+                           {% if todo.completed %}checked{% endif %}>
+                    <span>このタスクを完了済みにする</span>
+                </label>
+            </div>
+            <small class="form-help">
+                現在の状態: 
+                {% if todo.completed %}
+                    ✅ 完了済み
+                {% else %}
+                    ⏳ 未完了
+                {% endif %}
+            </small>
+        </div>
+        
+        <!-- フォーム送信ボタン -->
+        <div class="form-actions">
+            <a href="{{ url_for('index') }}" class="btn-form btn-secondary-form">
+                ⬅️ キャンセル
+            </a>
+            <button type="submit" class="btn-form btn-primary-form">
+                💾 変更を保存
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- データベース更新の学習ポイント -->
+<section class="learning-section">
+    <div class="learning-card">
+        <h3>🎓 データベース更新（UPDATE）の学習ポイント</h3>
+        
+        <div class="explanation-item">
+            <h4>🔄 UPDATE処理とは？</h4>
+            <p>
+                <strong>SELECT:</strong> 既存データを取得してフォームに表示<br>
+                <strong>UPDATE:</strong> 変更されたデータでレコードを更新<br>
+                <strong>WHERE句:</strong> 特定のIDのレコードのみを対象
+            </p>
+        </div>
+        
+        <div class="explanation-item">
+            <h4>📊 データの整合性</h4>
+            <p>
+                <strong>主キー（ID）:</strong> レコードを一意に識別<br>
+                <strong>バリデーション:</strong> 更新前にデータを検証<br>
+                <strong>トランザクション:</strong> 処理の安全性を保証
+            </p>
+        </div>
+        
+        <div class="explanation-item">
+            <h4>🎯 実用的な機能</h4>
+            <p>
+                <strong>既存値の保持:</strong> 元の値がフォームに自動入力<br>
+                <strong>部分更新:</strong> 変更した項目のみを更新<br>
+                <strong>更新日時:</strong> 最終変更日時を自動記録
+            </p>
+        </div>
+        
+        <div class="db-info">
+            <div class="db-info-title">💡 CRUD操作の完成</div>
+            <p>この編集機能により、CRUD操作が完全に実装されました：</p>
+            <p>
+                <strong>✅ C</strong>reate: 新規作成（追加フォーム）<br>
+                <strong>✅ R</strong>ead: 読み取り（一覧表示）<br>
+                <strong>✅ U</strong>pdate: 更新（この編集フォーム）<br>
+                <strong>✅ D</strong>elete: 削除（削除ボタン）
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}エラー - Flask ToDoアプリ{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">⚠️ エラーが発生しました</h1>
+    <p class="page-subtitle">アプリケーションの実行に問題があります</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="error-container">
+    <div class="error-icon">🚫</div>
+    <h2 class="error-title">アプリケーションエラー</h2>
+    <div class="error-message">
+        {{ error_message }}
+    </div>
+    
+    <div class="error-actions">
+        <h3>解決方法:</h3>
+        <ol style="text-align: left; max-width: 400px; margin: 20px auto;">
+            <li>ターミナルで以下のコマンドを実行してください:</li>
+            <div class="db-info">
+                <strong>python init_db.py</strong>
+            </div>
+            <li>データベースの初期化が完了したら、ページを再读み込みしてください</li>
+            <li>問題が続く場合は、アプリケーションを再起動してください</li>
+        </ol>
+    </div>
+    
+    <div style="margin-top: 30px;">
+        <a href="{{ url_for('index') }}" class="btn btn-primary">
+            🔄 ページを再読み込み
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">➕ 新しいタスクを追加</h1>
+    <p class="page-subtitle">データベースに永続保存</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="POST" action="{{ url_for('add_todo') }}">
+        <!-- タイトル入力 -->
+        <div class="form-group">
+            <label for="title" class="form-label required">タスクのタイトル</label>
+            <input type="text" 
+                   id="title" 
+                   name="title" 
+                   class="form-input" 
+                   placeholder="例: 資料作成を完了する"
+                   maxlength="200"
+                   required>
+            <small class="form-help">必須項目です（最大200文字）</small>
+        </div>
+        
+        <!-- 説明入力 -->
+        <div class="form-group">
+            <label for="description" class="form-label">詳細説明</label>
+            <textarea id="description" 
+                      name="description" 
+                      class="form-input form-textarea" 
+                      placeholder="タスクの詳細を入力してください（任意）"
+                      rows="4"></textarea>
+            <small class="form-help">任意項目です。空欄の場合は「なし」と記録されます</small>
+        </div>
+        
+        <!-- 優先度選択 -->
+        <div class="form-group">
+            <label for="priority" class="form-label">優先度</label>
+            <select id="priority" name="priority" class="form-input form-select">
+                <option value="high">🔴 高優先度</option>
+                <option value="medium" selected>🟡 中優先度</option>
+                <option value="low">🟢 低優先度</option>
+            </select>
+            <small class="form-help">デフォルトは「中優先度」です</small>
+        </div>
+        
+        <!-- フォーム送信ボタン -->
+        <div class="form-actions">
+            <a href="{{ url_for('index') }}" class="btn-form btn-secondary-form">
+                ⬅️ キャンセル
+            </a>
+            <button type="submit" class="btn-form btn-primary-form">
+                ✅ タスクを追加
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- フォーム処理の学習ポイント -->
+<section class="learning-section">
+    <div class="learning-card">
+        <h3>🎓 データベース連携の学習ポイント</h3>
+        
+        <div class="explanation-item">
+            <h4>💾 データベース永続化</h4>
+            <p>
+                <strong>SQLite:</strong> 軽量で高性能なデータベース<br>
+                <strong>INSERT文:</strong> 新しいデータをテーブルに追加<br>
+                <strong>永続保存:</strong> サーバー再起動後もデータが残る
+            </p>
+        </div>
+        
+        <div class="explanation-item">
+            <h4>🔄 CRUD操作とは？</h4>
+            <p>
+                <strong>Create:</strong> データの作成（このフォーム）<br>
+                <strong>Read:</strong> データの読み取り（一覧表示）<br>
+                <strong>Update:</strong> データの更新（編集機能）<br>
+                <strong>Delete:</strong> データの削除（削除機能）
+            </p>
+        </div>
+        
+        <div class="explanation-item">
+            <h4>📊 Step 5の価値</h4>
+            <p>
+                <strong>永続化:</strong> データが永久に保存される<br>
+                <strong>高速処理:</strong> データベースの最適化機能<br>
+                <strong>整合性:</strong> データの一貫性が保たれる
+            </p>
+        </div>
+        
+        <div class="next-step-info">
+            <p><strong>🎉 重要:</strong> Step 5で「本物のWebアプリケーション」が完成！データベース連携により完全な永続化を実現しました。</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">📝 ToDoリスト</h1>
+    <p class="page-subtitle">{{ current_date }} - フォーム送信機能付き</p>
+    
+    <!-- 統計情報 -->
+    <div class="stats-grid" style="max-width: 400px; margin: 20px auto;">
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+                <h3>{{ total_todos }}</h3>
+                <p>総タスク数</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">📝</div>
+            <div class="stat-info">
+                <h3>メモリ保存</h3>
+                <p>Step 5でDB保存</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 新規追加ボタン -->
+<section class="action-section" style="text-align: center; margin-bottom: 30px;">
+    <a href="{{ url_for('add_form') }}" class="btn btn-primary btn-form">
+        ➕ 新しいタスクを追加
+    </a>
+</section>
+
+<!-- ToDoリスト表示 -->
+<section class="todos-section">
+    {% if todos %}
+        <div class="todos-grid">
+            {% for todo in todos %}
+            <div class="todo-card pending">
+                <!-- タスクヘッダー -->
+                <div class="todo-header">
+                    <div class="todo-status">
+                        <span class="status-icon">📝</span>
+                        <span class="status-text">ID: {{ todo.id }}</span>
+                    </div>
+                    <div class="todo-priority priority-{{ todo.priority }}">
+                        {% if todo.priority == 'high' %}
+                            🔴 高優先度
+                        {% elif todo.priority == 'medium' %}
+                            🟡 中優先度
+                        {% else %}
+                            🟢 低優先度
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- タスク内容 -->
+                <div class="todo-body">
+                    <h3 class="todo-title">{{ todo.title }}</h3>
+                    <p class="todo-description">{{ todo.description }}</p>
+                </div>
+                
+                <!-- タスクフッター -->
+                <div class="todo-footer">
+                    <div class="todo-date">
+                        📅 {{ todo.created_at }}
+                    </div>
+                    <div class="todo-actions">
+                        <!-- 削除フォーム -->
+                        <form method="POST" action="{{ url_for('delete_todo', todo_id=todo.id) }}" class="delete-form" 
+                              onsubmit="return confirm('「{{ todo.title }}」を削除しますか？')">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                🗑️ 削除
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- タスクが空の場合 -->
+        <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <h3>まだタスクがありません</h3>
+            <p>新しいタスクを追加して、ToDoリストを始めましょう！</p>
+            <a href="{{ url_for('add_form') }}" class="btn btn-primary">
+                ➕ 最初のタスクを追加
+            </a>
+        </div>
+    {% endif %}
+</section>
+
+<!-- 学習ポイント表示セクション -->
+<section class="learning-section">
+    <div class="learning-card">
+        <h3>🎓 Step 4で学習した内容</h3>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon">📝</div>
+                <div class="tech-info">
+                    <h4>HTMLフォーム</h4>
+                    <p>ユーザー入力を受け取るフォーム作成</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">📤</div>
+                <div class="tech-info">
+                    <h4>POST通信</h4>
+                    <p>データをサーバーに送信する方法</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">✅</div>
+                <div class="tech-info">
+                    <h4>バリデーション</h4>
+                    <p>入力値の検証とエラー処理</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">💬</div>
+                <div class="tech-info">
+                    <h4>フラッシュメッセージ</h4>
+                    <p>操作結果のフィードバック表示</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="next-step-info">
+            <p><strong>Step 3との違い:</strong> 編集結果がページ再読み込み後も残ります！</p>
+            <p><strong>次のステップ:</strong> Step 5ではデータベースで完全な永続化を実現します。</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,3 +1,17 @@
+# ========================================
+# 🎓 Flask Web開発学習教材プロジェクト
+# ========================================
+# このプロジェクトは、非エンジニア向けのWeb開発学習教材です
+# Step1: Flask基礎 + 仮想環境
+# Step2: HTMLテンプレート + CSS  
+# Step3: JavaScript DOM操作（予定）
+# Step4: Form送信とPOST処理（予定）
+# Step5: データベース連携（予定）
+#
+# 📚 学習ドキュメント: docs/01_コンピューター基礎知識/14_応用_.gitignoreとファイル管理.md
+# 🔗 リポジトリ: https://github.com/Monzi-takuya/web-tutorial
+# ========================================
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -158,8 +172,44 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# Tutorial-specific: Keep only the essential files for learning
-# Exclude any student's personal practice files
+# ========================================
+# 🎓 学習教材固有の設定
+# ========================================
+# 学習に必要なファイルのみをGitで管理し、
+# 学習者の個人的な練習ファイルは除外します
+
+# 学習者の練習用フォルダ
 practice/
 sandbox/
+experiments/
+my_practice/
+
+# 過去ファイル
+bk/
+
+# 個人的なメモ・ノート
 personal_notes.md
+my_notes.txt
+memo.txt
+TODO.md
+学習メモ.md
+
+# 一時的な練習ファイル
+temp_*.py
+test_*.html
+debug_*.js
+試作_*
+テスト用_*
+
+# 学習者が作成する可能性のある設定ファイル
+.env.local
+config_personal.py
+my_config.json
+
+# ========================================
+# 📝 学習者へのメモ
+# ========================================
+# このプロジェクトをフォークして学習する場合:
+# 1. 上記のパターンに従って個人ファイルを作成してください
+# 2. 機密情報（パスワード等）は絶対にコミットしないでください  
+# 3. 詳しくは docs/01_コンピューター基礎知識/14_応用_.gitignoreとファイル管理.md をご覧ください

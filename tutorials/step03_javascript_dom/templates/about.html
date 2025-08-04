@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">ℹ️ Step 3: JavaScript DOM操作について</h1>
+    <p class="page-subtitle">非エンジニア向け - Webページをインタラクティブにする技術</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- ステップ概要セクション -->
+<section class="about-section">
+    <div class="about-card">
+        <h2>🎯 Step 3で学習する内容</h2>
+        <div class="step-overview">
+            <div class="overview-item">
+                <h3>⚡ JavaScript DOM操作</h3>
+                <p>ページの要素を動的に変更・追加・削除する方法を学習します</p>
+            </div>
+            <div class="overview-item">
+                <h3>🖱️ イベント処理</h3>
+                <p>ボタンクリックやキーボード入力などのユーザー操作に反応する仕組み</p>
+            </div>
+            <div class="overview-item">
+                <h3>🎨 動的スタイリング</h3>
+                <p>JavaScriptを使ってリアルタイムでデザインを変更する技術</p>
+            </div>
+            <div class="overview-item">
+                <h3>📡 サーバー通信</h3>
+                <p>ページを再読み込みせずにサーバーとデータをやり取りする方法</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 現在のステップ情報 -->
+<section class="step-info-section">
+    <div class="step-info-card">
+        <h2>📍 現在の学習ステップ</h2>
+        <div class="step-progress">
+            <div class="step-item completed">
+                <div class="step-number">1</div>
+                <div class="step-details">
+                    <h4>Flask基礎</h4>
+                    <p>Webサーバーの基本概念</p>
+                </div>
+            </div>
+            <div class="step-item completed">
+                <div class="step-number">2</div>
+                <div class="step-details">
+                    <h4>HTML + CSS</h4>
+                    <p>テンプレートとスタイリング</p>
+                </div>
+            </div>
+            <div class="step-item current">
+                <div class="step-number">3</div>
+                <div class="step-details">
+                    <h4>JavaScript DOM操作</h4>
+                    <p>インタラクティブな機能</p>
+                </div>
+            </div>
+            <div class="step-item upcoming">
+                <div class="step-number">4</div>
+                <div class="step-details">
+                    <h4>フォーム処理</h4>
+                    <p>データの送信と受信</p>
+                </div>
+            </div>
+            <div class="step-item upcoming">
+                <div class="step-number">5</div>
+                <div class="step-details">
+                    <h4>データベース</h4>
+                    <p>データの永続化</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="step-stats">
+            <p><strong>進捗:</strong> Step {{ step_info.current_step }} / {{ step_info.total_steps }}</p>
+            <p><strong>前のステップ:</strong> {{ step_info.previous_step }}</p>
+            <p><strong>次のステップ:</strong> {{ step_info.next_step }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- 実装済み機能一覧 -->
+<section class="features-section">
+    <div class="features-card">
+        <h2>✨ 実装済み機能</h2>
+        <div class="features-grid">
+            {% for feature in features %}
+            <div class="feature-item {{ feature.status }}">
+                <div class="feature-header">
+                    <h3>{{ feature.name }}</h3>
+                    <span class="status-badge status-{{ feature.status }}">
+                        {% if feature.status == 'implemented' %}
+                            ✅ 実装済み
+                        {% elif feature.status == 'in_progress' %}
+                            🔄 実装中
+                        {% else %}
+                            ⏳ 未実装
+                        {% endif %}
+                    </span>
+                </div>
+                <p>{{ feature.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript体験セクション -->
+<section class="demo-section">
+    <div class="demo-card">
+        <h2>🎮 JavaScript機能を体験してみよう</h2>
+        <p>以下のボタンを使って、実際にJavaScriptの動作を確認できます：</p>
+        
+        <div class="demo-buttons">
+            <button id="demoColorChange" class="btn btn-primary">
+                🎨 背景色を変更
+            </button>
+            <button id="demoAddElement" class="btn btn-success">
+                ➕ 要素を追加
+            </button>
+            <button id="demoAnimation" class="btn btn-warning">
+                ✨ アニメーション実行
+            </button>
+            <button id="demoCurrentTime" class="btn btn-info">
+                🕐 現在時刻を表示
+            </button>
+        </div>
+        
+        <div id="demoOutput" class="demo-output">
+            <p>ボタンをクリックすると、ここに結果が表示されます</p>
+        </div>
+    </div>
+</section>
+
+<!-- 非エンジニア向け解説セクション -->
+<section class="explanation-section">
+    <div class="explanation-card">
+        <h2>🎓 非エンジニア向け解説</h2>
+        
+        <div class="explanation-item">
+            <h3>🤔 JavaScriptとは？</h3>
+            <p>
+                <strong>JavaScript</strong>は、Webページに「動き」を与える技術です。<br>
+                HTML（構造）、CSS（見た目）に続く、第3の要素として、
+                <strong>「インタラクション（操作への反応）」</strong>を実現します。
+            </p>
+            <div class="analogy">
+                <h4>🏠 家づくりで例えると：</h4>
+                <ul>
+                    <li><strong>HTML:</strong> 家の骨組み（柱・壁・部屋）</li>
+                    <li><strong>CSS:</strong> 内装・外装（色・デザイン）</li>
+                    <li><strong>JavaScript:</strong> 電気設備（スイッチで照明をつける、インターホンが鳴る等）</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="explanation-item">
+            <h3>🖱️ DOM操作とは？</h3>
+            <p>
+                <strong>DOM（Document Object Model）</strong>とは、Webページの構造を
+                プログラムから操作できるようにした仕組みです。
+            </p>
+            <div class="dom-examples">
+                <h4>できることの例：</h4>
+                <ul>
+                    <li>📝 ボタンをクリックしたら、新しい文章を追加</li>
+                    <li>🎨 色変更ボタンで背景色をランダムに変える</li>
+                    <li>👁️ 「表示・非表示」ボタンで要素を隠す・見せる</li>
+                    <li>✏️ テキストをクリックして、その場で編集可能にする</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="explanation-item">
+            <h3>🎯 なぜJavaScriptが重要？</h3>
+            <div class="importance-grid">
+                <div class="importance-item">
+                    <h4>📱 ユーザー体験の向上</h4>
+                    <p>ページ読み込みなしで、素早く反応するWebサイト</p>
+                </div>
+                <div class="importance-item">
+                    <h4>🎮 インタラクティブ機能</h4>
+                    <p>ゲーム感覚で使える、楽しいWebアプリケーション</p>
+                </div>
+                <div class="importance-item">
+                    <h4>💡 リアルタイム機能</h4>
+                    <p>チャット、通知、ライブアップデートなど</p>
+                </div>
+                <div class="importance-item">
+                    <h4>📊 データ可視化</h4>
+                    <p>グラフ、チャート、動的な統計表示</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 次のステップへの案内 -->
+<section class="next-steps-section">
+    <div class="next-steps-card">
+        <h2>🚀 次のステップ</h2>
+        <p>
+            Step 3でJavaScriptの基礎を学んだら、<strong>Step 4: フォーム処理</strong>に進みます。
+        </p>
+        <div class="next-step-preview">
+            <h3>📝 Step 4で学習予定の内容：</h3>
+            <ul>
+                <li>✍️ フォーム入力の処理</li>
+                <li>📤 POST リクエストの送信</li>
+                <li>✅ バリデーション（入力値チェック）</li>
+                <li>💾 データの一時保存</li>
+            </ul>
+        </div>
+        
+        <div class="learning-tips">
+            <h3>💡 学習のコツ</h3>
+            <p>
+                JavaScriptは「実際に触ってみる」ことが一番の学習方法です。<br>
+                ToDoリストページで各種ボタンを試して、どんな動作をするか観察してみてください！
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- About ページ専用JavaScript -->
+<script src="{{ url_for('static', filename='js/about.js') }}"></script>
+{% endblock %}

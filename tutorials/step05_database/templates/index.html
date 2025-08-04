@@ -1,0 +1,207 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">📝 ToDoリスト</h1>
+    <p class="page-subtitle">{{ current_date }} - データベース連携・完全永続化</p>
+    
+    <!-- 統計情報ダッシュボード -->
+    <div class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ total_todos }}</div>
+                <div class="stat-label">総タスク数</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number">{{ pending_todos }}</div>
+                <div class="stat-label">未完了</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number">{{ completed_todos }}</div>
+                <div class="stat-label">完了済み</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number">
+                    {% if total_todos > 0 %}
+                        {{ (completed_todos / total_todos * 100)|round|int }}%
+                    {% else %}
+                        0%
+                    {% endif %}
+                </div>
+                <div class="stat-label">完了率</div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- 新規追加ボタン -->
+<section class="action-section" style="text-align: center; margin-bottom: 30px;">
+    <a href="{{ url_for('add_form') }}" class="btn btn-primary btn-form">
+        ➕ 新しいタスクを追加
+    </a>
+</section>
+
+<!-- ToDoリスト表示 -->
+<section class="todos-section">
+    {% if todos %}
+        <div class="todos-grid">
+            {% for todo in todos %}
+            <div class="todo-card {% if todo.completed %}completed{% else %}pending{% endif %}">
+                <!-- タスクヘッダー -->
+                <div class="todo-header">
+                    <div class="todo-status">
+                        <span class="status-icon">
+                            {% if todo.completed %}
+                                ✅
+                            {% else %}
+                                📝
+                            {% endif %}
+                        </span>
+                        <span class="status-text">ID: {{ todo.id }}</span>
+                    </div>
+                    <div class="todo-priority">
+                        <span class="priority-badge priority-{{ todo.priority }}">
+                            {% if todo.priority == 'high' %}
+                                🔴 高優先度
+                            {% elif todo.priority == 'medium' %}
+                                🟡 中優先度
+                            {% else %}
+                                🟢 低優先度
+                            {% endif %}
+                        </span>
+                    </div>
+                </div>
+                
+                <!-- タスク内容 -->
+                <div class="todo-body">
+                    <h3 class="todo-title">{{ todo.title }}</h3>
+                    {% if todo.description %}
+                        <p class="todo-description">{{ todo.description }}</p>
+                    {% endif %}
+                </div>
+                
+                <!-- タスクフッター -->
+                <div class="todo-footer">
+                    <div class="todo-dates">
+                        <div class="todo-date">
+                            📅 作成: {{ todo.created_at[:16] }}
+                        </div>
+                        {% if todo.updated_at != todo.created_at %}
+                            <div class="todo-date">
+                                🔄 更新: {{ todo.updated_at[:16] }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <!-- CRUD操作ボタン -->
+                    <div class="crud-actions">
+                        <!-- 完了状態切り替え -->
+                        <form method="POST" action="{{ url_for('toggle_todo', todo_id=todo.id) }}" style="display: inline;">
+                            <button type="submit" class="btn-toggle {% if todo.completed %}completed{% endif %}">
+                                {% if todo.completed %}
+                                    ↩️ 未完了に戻す
+                                {% else %}
+                                    ✅ 完了にする
+                                {% endif %}
+                            </button>
+                        </form>
+                        
+                        <!-- 編集リンク -->
+                        <a href="{{ url_for('edit_form', todo_id=todo.id) }}" class="btn-edit">
+                            ✏️ 編集
+                        </a>
+                        
+                        <!-- 削除フォーム -->
+                        <form method="POST" action="{{ url_for('delete_todo', todo_id=todo.id) }}" style="display: inline;"
+                              onsubmit="return confirm('「{{ todo.title }}」を削除しますか？\n※この操作は元に戻せません。')">
+                            <button type="submit" class="btn-delete">
+                                🗑️ 削除
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- タスクが空の場合 -->
+        <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <h3>まだタスクがありません</h3>
+            <p>新しいタスクを追加して、ToDoリストを始めましょう！</p>
+            <a href="{{ url_for('add_form') }}" class="btn btn-primary">
+                ➕ 最初のタスクを追加
+            </a>
+        </div>
+    {% endif %}
+</section>
+
+<!-- Step 5の学習ポイント表示セクション -->
+<section class="learning-section">
+    <div class="learning-card">
+        <h3>🎓 Step 5で実現した機能</h3>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon">💾</div>
+                <div class="tech-info">
+                    <h4>完全永続化</h4>
+                    <p>サーバー再起動後もデータが残る</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">🔄</div>
+                <div class="tech-info">
+                    <h4>CRUD操作</h4>
+                    <p>作成・読み取り・更新・削除の全機能</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">📊</div>
+                <div class="tech-info">
+                    <h4>リアルタイム統計</h4>
+                    <p>進捗状況の可視化</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">🗃️</div>
+                <div class="tech-info">
+                    <h4>SQLiteデータベース</h4>
+                    <p>本格的なデータ管理</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="step-comparison">
+            <h4>📈 各ステップの進歩</h4>
+            <div style="text-align: left; max-width: 600px; margin: 15px auto;">
+                <p><strong>Step 1:</strong> 基本的なWebサーバー（静的データ表示）</p>
+                <p><strong>Step 2:</strong> HTML・CSS（見た目の向上）</p>
+                <p><strong>Step 3:</strong> JavaScript（一時的なインタラクション）</p>
+                <p><strong>Step 4:</strong> フォーム処理（データ送信・一時保存）</p>
+                <p><strong>Step 5:</strong> データベース（完全永続化・本格運用）✨</p>
+            </div>
+        </div>
+        
+        <div class="db-info">
+            <div class="db-info-title">💡 データベースの価値</div>
+            <p>Step 5では、ついに「本物のWebアプリケーション」が完成しました！</p>
+            <p>
+                <strong>✅ 永続化:</strong> データが永久に保存される<br>
+                <strong>✅ 高速検索:</strong> 大量データでも瞬時に検索<br>
+                <strong>✅ 整合性:</strong> データの一貫性が保たれる<br>
+                <strong>✅ 拡張性:</strong> 機能追加が容易
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}

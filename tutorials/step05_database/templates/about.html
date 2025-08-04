@@ -1,0 +1,395 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">ℹ️ Step 5: データベース連携について</h1>
+    <p class="page-subtitle">非エンジニア向け - 完全永続化とCRUD操作の実現</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- ステップ概要セクション -->
+<section class="about-section">
+    <div class="about-card">
+        <h2>🎯 Step 5で実現した機能</h2>
+        <div class="step-overview">
+            <div class="overview-item">
+                <h3>💾 完全永続化</h3>
+                <p>SQLiteデータベースによる永続的なデータ保存の実現</p>
+            </div>
+            <div class="overview-item">
+                <h3>🔄 CRUD操作</h3>
+                <p>作成・読み取り・更新・削除の全機能を実装</p>
+            </div>
+            <div class="overview-item">
+                <h3>📊 データ統計</h3>
+                <p>リアルタイムな進捗状況とタスク統計の表示</p>
+            </div>
+            <div class="overview-item">
+                <h3>🎯 本格運用</h3>
+                <p>実際のWebアプリケーションと同等のデータ管理機能</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 現在のデータベース統計 -->
+<section class="stats-section">
+    <div class="stats-card">
+        <h2>📊 現在のデータベース状況</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.total }}</div>
+                <div class="stat-label">総タスク数</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.pending }}</div>
+                <div class="stat-label">未完了</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number">{{ stats.completed }}</div>
+                <div class="stat-label">完了済み</div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-number">
+                    {% if stats.total > 0 %}
+                        {{ (stats.completed / stats.total * 100)|round|int }}%
+                    {% else %}
+                        0%
+                    {% endif %}
+                </div>
+                <div class="stat-label">完了率</div>
+            </div>
+        </div>
+        
+        {% if stats.by_priority %}
+        <div style="margin-top: 20px;">
+            <h4>優先度別内訳</h4>
+            <div class="priority-stats">
+                {% for priority, count in stats.by_priority.items() %}
+                    <span class="priority-badge priority-{{ priority }}">
+                        {{ priority }}: {{ count }}件
+                    </span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- 現在のステップ情報 -->
+<section class="step-info-section">
+    <div class="step-info-card">
+        <h2>🏁 学習ステップの完了</h2>
+        <div class="step-progress">
+            <div class="step-item completed">
+                <div class="step-number">1</div>
+                <div class="step-details">
+                    <h4>Flask基礎</h4>
+                    <p>Webサーバーの基本概念</p>
+                </div>
+            </div>
+            <div class="step-item completed">
+                <div class="step-number">2</div>
+                <div class="step-details">
+                    <h4>HTML + CSS</h4>
+                    <p>テンプレートとスタイリング</p>
+                </div>
+            </div>
+            <div class="step-item completed">
+                <div class="step-number">3</div>
+                <div class="step-details">
+                    <h4>JavaScript DOM操作</h4>
+                    <p>インタラクティブな機能</p>
+                </div>
+            </div>
+            <div class="step-item completed">
+                <div class="step-number">4</div>
+                <div class="step-details">
+                    <h4>フォーム処理</h4>
+                    <p>データ送信と処理</p>
+                </div>
+            </div>
+            <div class="step-item completed">
+                <div class="step-number">5</div>
+                <div class="step-details">
+                    <h4>データベース連携</h4>
+                    <p>完全な永続化</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="completion-message">
+            <h3>🎉 おめでとうございます！</h3>
+            <p>Flask学習プロジェクトが完了しました。全5ステップを通じて、Webアプリケーションの基礎から本格的なデータベース連携まで学習できました。</p>
+        </div>
+    </div>
+</section>
+
+<!-- 実装済み機能一覧 -->
+<section class="features-section">
+    <div class="features-card">
+        <h2>✨ 最終的に実装された機能</h2>
+        <div class="features-grid">
+            {% for feature in features %}
+            <div class="feature-item {{ feature.status }}">
+                <div class="feature-header">
+                    <h3>{{ feature.name }}</h3>
+                    <span class="status-badge status-{{ feature.status }}">
+                        {% if feature.status == 'implemented' %}
+                            ✅ 実装済み
+                        {% elif feature.status == 'in_progress' %}
+                            🔄 実装中
+                        {% else %}
+                            ⏳ 未実装
+                        {% endif %}
+                    </span>
+                </div>
+                <p>{{ feature.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 非エンジニア向け解説セクション -->
+<section class="explanation-section">
+    <div class="explanation-card">
+        <h2>🎓 非エンジニア向け総合解説</h2>
+        
+        <div class="explanation-item">
+            <h3>💾 データベースとは？</h3>
+            <p>
+                <strong>データベース</strong>は、データを整理して効率的に保存・検索するシステムです。
+                Step 5では軽量で高性能な<strong>SQLite</strong>を使用しています。
+            </p>
+            <div class="analogy">
+                <h4>🏢 図書館で例えると：</h4>
+                <ul>
+                    <li><strong>データベース:</strong> 図書館全体</li>
+                    <li><strong>テーブル:</strong> 本棚（種類別に整理）</li>
+                    <li><strong>レコード:</strong> 1冊の本</li>
+                    <li><strong>フィールド:</strong> タイトル、著者、ISBN など</li>
+                    <li><strong>SQL:</strong> 司書への検索依頼の方法</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="explanation-item">
+            <h3>🔄 CRUD操作の重要性</h3>
+            <div class="crud-explanation">
+                <div class="crud-item">
+                    <h4>📝 Create（作成）</h4>
+                    <p>新しいタスクをデータベースに追加</p>
+                </div>
+                <div class="crud-item">
+                    <h4>📖 Read（読み取り）</h4>
+                    <p>保存されたタスクを検索・表示</p>
+                </div>
+                <div class="crud-item">
+                    <h4>✏️ Update（更新）</h4>
+                    <p>既存のタスクの内容を変更</p>
+                </div>
+                <div class="crud-item">
+                    <h4>🗑️ Delete（削除）</h4>
+                    <p>不要なタスクをデータベースから除去</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="explanation-item">
+            <h3>📈 各ステップでの進歩</h3>
+            <div class="step-comparison">
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 12px; border: 1px solid #dee2e6;">ステップ</th>
+                            <th style="padding: 12px; border: 1px solid #dee2e6;">データ保存</th>
+                            <th style="padding: 12px; border: 1px solid #dee2e6;">機能</th>
+                            <th style="padding: 12px; border: 1px solid #dee2e6;">制限</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Step 1</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">❌ 静的データ</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">表示のみ</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">変更不可</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Step 2</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">❌ 静的データ</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">見た目向上</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">変更不可</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Step 3</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">⚠️ 一時的</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">編集・削除</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">再読み込みで消失</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Step 4</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">⚠️ サーバーメモリ</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">フォーム送信</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">再起動で消失</td>
+                        </tr>
+                        <tr style="background: #e8f5e8;">
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>Step 5</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">✅ 完全永続化</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">CRUD操作</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">制限なし</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 実用的な価値 -->
+<section class="business-value-section">
+    <div class="business-value-card">
+        <h2>💼 ビジネス視点での価値</h2>
+        
+        <div class="value-item">
+            <h3>🎯 実際のWebアプリケーションとの比較</h3>
+            <div class="comparison-grid">
+                <div class="comparison-item">
+                    <h4>✅ 実装済み機能</h4>
+                    <ul>
+                        <li>データベース永続化</li>
+                        <li>CRUD操作</li>
+                        <li>フォーム処理</li>
+                        <li>データ検証</li>
+                        <li>リアルタイム統計</li>
+                        <li>レスポンシブデザイン</li>
+                    </ul>
+                </div>
+                <div class="comparison-item">
+                    <h4>🔮 今後の拡張可能性</h4>
+                    <ul>
+                        <li>ユーザー認証・権限管理</li>
+                        <li>API連携</li>
+                        <li>高度な検索機能</li>
+                        <li>データ分析・レポート</li>
+                        <li>モバイルアプリ連携</li>
+                        <li>クラウドデプロイ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="value-item">
+            <h3>🗣️ 開発者とのコミュニケーション力向上</h3>
+            <p>この学習を通じて、以下の技術用語を適切に使えるようになりました：</p>
+            <div class="tech-terms">
+                <span class="tech-term">データベース</span>
+                <span class="tech-term">CRUD操作</span>
+                <span class="tech-term">フォーム送信</span>
+                <span class="tech-term">バリデーション</span>
+                <span class="tech-term">永続化</span>
+                <span class="tech-term">レスポンシブ</span>
+                <span class="tech-term">API</span>
+                <span class="tech-term">フロントエンド/バックエンド</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 学習完了の次のステップ -->
+<section class="next-steps-section">
+    <div class="next-steps-card">
+        <h2>🚀 学習完了後の次のステップ</h2>
+        
+        <div class="next-step-item">
+            <h3>🎓 さらなる学習</h3>
+            <ul>
+                <li><strong>認証システム:</strong> ユーザー登録・ログイン機能</li>
+                <li><strong>API開発:</strong> REST API・JSON データ交換</li>
+                <li><strong>フロントエンド:</strong> React・Vue.js などのSPA</li>
+                <li><strong>デプロイメント:</strong> AWS・Heroku などのクラウド展開</li>
+            </ul>
+        </div>
+        
+        <div class="learning-achievement">
+            <h3>🏆 達成した学習成果</h3>
+            <p>
+                おめでとうございます！あなたは今、<strong>Webアプリケーションの全体像</strong>を理解し、
+                開発者と効果的にコミュニケーションできる知識を身に付けました。
+            </p>
+            <p>
+                この知識は、プロジェクト管理、要件定義、品質評価など、
+                様々な業務で活用できる<strong>実践的なスキル</strong>です。
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<style>
+.priority-stats {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.crud-explanation {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.crud-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.comparison-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.tech-terms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 15px 0;
+}
+
+.tech-term {
+    background: #007bff;
+    color: white;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.completion-message {
+    text-align: center;
+    background: #d4edda;
+    padding: 30px;
+    border-radius: 12px;
+    margin: 30px 0;
+}
+</style>
+{% endblock %}

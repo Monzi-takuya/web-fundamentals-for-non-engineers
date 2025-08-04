@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">📝 ToDoリスト</h1>
+    <p class="page-subtitle">{{ current_date }} のタスク管理 - JavaScript体験版</p>
+    
+    <!-- 統計情報カード -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-info">
+                <h3>{{ stats.total }}</h3>
+                <p>総タスク数</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-info">
+                <h3>{{ stats.completed }}</h3>
+                <p>完了済み</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">⏰</div>
+            <div class="stat-info">
+                <h3>{{ stats.pending }}</h3>
+                <p>未完了</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon">📈</div>
+            <div class="stat-info">
+                <h3>{{ stats.completion_rate }}%</h3>
+                <p>完了率</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- プログレスバー -->
+    <div class="progress-section">
+        <div class="progress-label">
+            今日の進捗: {{ stats.completion_rate }}%
+        </div>
+        <div class="progress-bar">
+            <div class="progress-fill" style="width: {{ stats.completion_rate }}%"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<section class="todos-section">
+    <div class="section-header">
+        <h2>📋 タスク一覧</h2>
+        <div class="action-buttons">
+            <!-- Step 4で追加ボタンを実装予定 -->
+            <button class="btn btn-primary" disabled>
+                ➕ 新しいタスクを追加
+                <small>(Step 4で実装予定)</small>
+            </button>
+        </div>
+        
+        <!-- JavaScript機能説明 -->
+        <div class="js-intro" style="margin-top: 15px; padding: 15px; background: #e3f2fd; border-radius: 8px;">
+            <h4>🎮 Step 3で体験できること</h4>
+            <p>
+                <strong>フィルター機能:</strong> 下記のボタンでタスクの表示を切り替えできます<br>
+                <strong>編集・削除:</strong> 各タスクの「編集」「削除」ボタンが動作します<br>
+                <strong>学習機能:</strong> 下部の「JavaScriptで試してみよう！」ボタンを使ってみてください
+            </p>
+        </div>
+        
+        <!-- フィルターボタンエリア（JavaScriptで動的に追加される） -->
+    </div>
+    
+    {% if todos %}
+        <div class="todos-grid">
+            {% for todo in todos %}
+            <div class="todo-card {{ 'completed' if todo.completed else 'pending' }}" data-todo-id="{{ todo.id }}">
+                <!-- タスクヘッダー -->
+                <div class="todo-header">
+                    <div class="todo-status">
+                        <span class="status-icon">{{ todo.completed | status_icon }}</span>
+                        <span class="status-text">
+                            {{ '完了' if todo.completed else '未完了' }}
+                        </span>
+                    </div>
+                    <div class="todo-priority priority-{{ todo.priority }}">
+                        {% if todo.priority == 'high' %}
+                            🔴 高優先度
+                        {% elif todo.priority == 'medium' %}
+                            🟡 中優先度
+                        {% else %}
+                            🟢 低優先度
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <!-- タスク内容 -->
+                <div class="todo-body">
+                    <h3 class="todo-title">{{ todo.title }}</h3>
+                    <p class="todo-description">{{ todo.description }}</p>
+                </div>
+                
+                <!-- タスクフッター -->
+                <div class="todo-footer">
+                    <div class="todo-date">
+                        📅 {{ todo.created_at }}
+                    </div>
+                    <div class="todo-actions">
+                        <!-- Step 3でJavaScript機能として有効化 -->
+                        <button class="btn btn-sm btn-secondary todo-edit-btn">
+                            ✏️ 編集
+                        </button>
+                        <button class="btn btn-sm btn-danger todo-delete-btn">
+                            🗑️ 削除
+                        </button>
+                        <!-- 完了切り替えボタン（新機能） -->
+                        <button class="btn btn-sm btn-primary todo-toggle-btn" data-todo-id="{{ todo.id }}">
+                            {{ '↩️ 未完了にする' if todo.completed else '✅ 完了にする' }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- タスクが空の場合 -->
+        <div class="empty-state">
+            <div class="empty-icon">📝</div>
+            <h3>まだタスクがありません</h3>
+            <p>新しいタスクを追加して、ToDoリストを始めましょう！</p>
+            <button class="btn btn-primary" disabled>
+                ➕ 最初のタスクを追加
+                <small>(Step 4で実装予定)</small>
+            </button>
+        </div>
+    {% endif %}
+</section>
+
+<!-- 学習ポイント表示セクション -->
+<section class="learning-section">
+    <div class="learning-card">
+        <h3>🎓 Step 3で学習した内容</h3>
+        <div class="tech-grid">
+            <div class="tech-item">
+                <div class="tech-icon">🏗️</div>
+                <div class="tech-info">
+                    <h4>HTMLテンプレート</h4>
+                    <p>Jinja2によるテンプレートエンジン（継続）</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">🎨</div>
+                <div class="tech-info">
+                    <h4>CSS スタイリング</h4>
+                    <p>基本的なスタイリングとレイアウト（継続）</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">⚡</div>
+                <div class="tech-info">
+                    <h4>JavaScript DOM操作</h4>
+                    <p>要素の取得・作成・削除・変更</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">🖱️</div>
+                <div class="tech-info">
+                    <h4>イベント処理</h4>
+                    <p>クリック・キーボードイベントの処理</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">🎮</div>
+                <div class="tech-info">
+                    <h4>インタラクティブ機能</h4>
+                    <p>ユーザー操作に反応する動的な機能</p>
+                </div>
+            </div>
+            
+            <div class="tech-item">
+                <div class="tech-icon">📡</div>
+                <div class="tech-info">
+                    <h4>API連携</h4>
+                    <p>JavaScriptからサーバーとの通信</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="next-step-info">
+            <p><strong>次のステップ:</strong> Step 4ではフォーム送信とPOST処理を学習し、データの永続化を実装します！</p>
+        </div>
+        
+        <!-- JavaScript学習用インタラクティブボタンエリア（main.jsで動的追加） -->
+    </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<!-- ToDoリスト専用JavaScript -->
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+{% endblock %}

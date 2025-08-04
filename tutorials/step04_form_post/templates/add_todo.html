@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">➕ 新しいタスクを追加</h1>
+    <p class="page-subtitle">フォーム送信の基本を学習</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form method="POST" action="{{ url_for('add_todo') }}">
+        <!-- タイトル入力 -->
+        <div class="form-group">
+            <label for="title" class="form-label required">タスクのタイトル</label>
+            <input type="text" 
+                   id="title" 
+                   name="title" 
+                   class="form-input" 
+                   placeholder="例: 資料作成を完了する"
+                   maxlength="100"
+                   required>
+            <small class="form-help">必須項目です（最大100文字）</small>
+        </div>
+        
+        <!-- 説明入力 -->
+        <div class="form-group">
+            <label for="description" class="form-label">詳細説明</label>
+            <textarea id="description" 
+                      name="description" 
+                      class="form-input form-textarea" 
+                      placeholder="タスクの詳細を入力してください（任意）"
+                      rows="4"></textarea>
+            <small class="form-help">任意項目です。空欄の場合は「なし」と記録されます</small>
+        </div>
+        
+        <!-- 優先度選択 -->
+        <div class="form-group">
+            <label for="priority" class="form-label">優先度</label>
+            <select id="priority" name="priority" class="form-input form-select">
+                <option value="high">🔴 高優先度</option>
+                <option value="medium" selected>🟡 中優先度</option>
+                <option value="low">🟢 低優先度</option>
+            </select>
+            <small class="form-help">デフォルトは「中優先度」です</small>
+        </div>
+        
+        <!-- フォーム送信ボタン -->
+        <div class="form-actions">
+            <a href="{{ url_for('index') }}" class="btn-form btn-secondary-form">
+                ⬅️ キャンセル
+            </a>
+            <button type="submit" class="btn-form btn-primary-form">
+                ✅ タスクを追加
+            </button>
+        </div>
+    </form>
+</div>
+
+<!-- フォーム処理の学習ポイント -->
+<section class="learning-section">
+    <div class="learning-card">
+        <h3>🎓 フォーム処理の学習ポイント</h3>
+        
+        <div class="explanation-item">
+            <h4>📝 HTMLフォームの基本</h4>
+            <p>
+                <strong>&lt;form method="POST"&gt;</strong> でデータ送信方法を指定<br>
+                <strong>&lt;input&gt;</strong> で各種入力フィールドを作成<br>
+                <strong>name属性</strong> でサーバー側での受け取り名を設定
+            </p>
+        </div>
+        
+        <div class="explanation-item">
+            <h4>📤 POST通信とは？</h4>
+            <p>
+                <strong>GET:</strong> データを取得（URLに情報が表示される）<br>
+                <strong>POST:</strong> データを送信（URLに情報が表示されない）<br>
+                フォーム送信では<strong>POST</strong>を使用
+            </p>
+        </div>
+        
+        <div class="explanation-item">
+            <h4>✅ バリデーション（入力値検証）</h4>
+            <p>
+                <strong>required属性:</strong> ブラウザ側での必須チェック<br>
+                <strong>maxlength属性:</strong> 文字数制限<br>
+                <strong>サーバー側チェック:</strong> Pythonコードでの再検証
+            </p>
+        </div>
+        
+        <div class="next-step-info">
+            <p><strong>💡 重要:</strong> フォーム送信後、メインページにリダイレクトされ、追加されたタスクが表示されます。</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

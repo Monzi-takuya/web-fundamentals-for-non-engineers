@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block page_header %}
+<div class="page-header">
+    <h1 class="page-title">ℹ️ Step 4: フォーム処理・POST通信について</h1>
+    <p class="page-subtitle">非エンジニア向け - データ送信とサーバー処理の基礎</p>
+</div>
+{% endblock %}
+
+{% block content %}
+<!-- ステップ概要セクション -->
+<section class="about-section">
+    <div class="about-card">
+        <h2>🎯 Step 4で学習する内容</h2>
+        <div class="step-overview">
+            <div class="overview-item">
+                <h3>📝 HTMLフォーム</h3>
+                <p>ユーザーからの入力を受け取るフォームの作成と処理方法</p>
+            </div>
+            <div class="overview-item">
+                <h3>📤 POST通信</h3>
+                <p>データをサーバーに送信し、処理結果を受け取る仕組み</p>
+            </div>
+            <div class="overview-item">
+                <h3>✅ バリデーション</h3>
+                <p>入力値の検証とエラー処理による安全なデータ処理</p>
+            </div>
+            <div class="overview-item">
+                <h3>💬 フラッシュメッセージ</h3>
+                <p>操作結果のフィードバック表示によるユーザビリティ向上</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 現在のステップ情報 -->
+<section class="step-info-section">
+    <div class="step-info-card">
+        <h2>📍 現在の学習ステップ</h2>
+        <div class="step-progress">
+            <div class="step-item completed">
+                <div class="step-number">1</div>
+                <div class="step-details">
+                    <h4>Flask基礎</h4>
+                    <p>Webサーバーの基本概念</p>
+                </div>
+            </div>
+            <div class="step-item completed">
+                <div class="step-number">2</div>
+                <div class="step-details">
+                    <h4>HTML + CSS</h4>
+                    <p>テンプレートとスタイリング</p>
+                </div>
+            </div>
+            <div class="step-item completed">
+                <div class="step-number">3</div>
+                <div class="step-details">
+                    <h4>JavaScript DOM操作</h4>
+                    <p>インタラクティブな機能</p>
+                </div>
+            </div>
+            <div class="step-item current">
+                <div class="step-number">4</div>
+                <div class="step-details">
+                    <h4>フォーム処理</h4>
+                    <p>データ送信と処理</p>
+                </div>
+            </div>
+            <div class="step-item upcoming">
+                <div class="step-number">5</div>
+                <div class="step-details">
+                    <h4>データベース</h4>
+                    <p>データの永続化</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="step-stats">
+            <p><strong>進捗:</strong> Step {{ step_info.current_step }} / {{ step_info.total_steps }}</p>
+            <p><strong>前のステップ:</strong> {{ step_info.previous_step }}</p>
+            <p><strong>次のステップ:</strong> {{ step_info.next_step }}</p>
+        </div>
+    </div>
+</section>
+
+<!-- 実装済み機能一覧 -->
+<section class="features-section">
+    <div class="features-card">
+        <h2>✨ 実装済み機能</h2>
+        <div class="features-grid">
+            {% for feature in features %}
+            <div class="feature-item {{ feature.status }}">
+                <div class="feature-header">
+                    <h3>{{ feature.name }}</h3>
+                    <span class="status-badge status-{{ feature.status }}">
+                        {% if feature.status == 'implemented' %}
+                            ✅ 実装済み
+                        {% elif feature.status == 'in_progress' %}
+                            🔄 実装中
+                        {% else %}
+                            ⏳ 未実装
+                        {% endif %}
+                    </span>
+                </div>
+                <p>{{ feature.description }}</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- 非エンジニア向け解説セクション -->
+<section class="explanation-section">
+    <div class="explanation-card">
+        <h2>🎓 非エンジニア向け解説</h2>
+        
+        <div class="explanation-item">
+            <h3>🤔 フォーム処理とは？</h3>
+            <p>
+                <strong>フォーム処理</strong>は、ユーザーがWebページで入力した情報を
+                サーバーに送信し、処理結果を返す仕組みです。
+            </p>
+            <div class="analogy">
+                <h4>🏪 店舗での注文で例えると：</h4>
+                <ul>
+                    <li><strong>注文用紙:</strong> HTMLフォーム</li>
+                    <li><strong>記入:</strong> ユーザーの入力</li>
+                    <li><strong>店員に渡す:</strong> POST送信</li>
+                    <li><strong>注文受付:</strong> サーバー処理</li>
+                    <li><strong>受付番号:</strong> フラッシュメッセージ</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="explanation-item">
+            <h3>📤 POST通信の重要性</h3>
+            <div class="importance-grid">
+                <div class="importance-item">
+                    <h4>🔒 セキュリティ</h4>
+                    <p>入力データがURLに表示されない</p>
+                </div>
+                <div class="importance-item">
+                    <h4>📊 データ量</h4>
+                    <p>大量のデータを送信可能</p>
+                </div>
+                <div class="importance-item">
+                    <h4>🔄 処理の明確化</h4>
+                    <p>データ送信の意図が明確</p>
+                </div>
+                <div class="importance-item">
+                    <h4>📱 ユーザビリティ</h4>
+                    <p>操作結果の適切なフィードバック</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="explanation-item">
+            <h3>🎯 Step 3との重要な違い</h3>
+            <div class="comparison-table">
+                <table style="width: 100%; border-collapse: collapse; margin: 15px 0;">
+                    <thead>
+                        <tr style="background: #f8f9fa;">
+                            <th style="padding: 12px; border: 1px solid #dee2e6;">項目</th>
+                            <th style="padding: 12px; border: 1px solid #dee2e6;">Step 3</th>
+                            <th style="padding: 12px; border: 1px solid #dee2e6;">Step 4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>データ保存</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">❌ メモリのみ（再読み込みで消失）</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">✅ サーバー保存（再読み込み後も残る）</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>入力方法</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">インライン編集</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">専用フォームページ</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>バリデーション</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">なし</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">入力値検証あり</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;"><strong>フィードバック</strong></td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">コンソールログ</td>
+                            <td style="padding: 12px; border: 1px solid #dee2e6;">フラッシュメッセージ</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- 次のステップへの案内 -->
+<section class="next-steps-section">
+    <div class="next-steps-card">
+        <h2>🚀 次のステップ</h2>
+        <p>
+            Step 4でフォーム処理の基礎を学んだら、<strong>Step 5: データベース連携</strong>に進みます。
+        </p>
+        <div class="next-step-preview">
+            <h3>💾 Step 5で学習予定の内容：</h3>
+            <ul>
+                <li>🗃️ SQLiteデータベースの基礎</li>
+                <li>📊 CRUD操作（作成・読み取り・更新・削除）</li>
+                <li>🔗 FlaskとSQLiteの連携</li>
+                <li>🔄 完全なデータ永続化</li>
+            </ul>
+        </div>
+        
+        <div class="learning-tips">
+            <h3>💡 学習のコツ</h3>
+            <p>
+                実際にフォームに様々な値を入力して、バリデーションやエラー処理の動作を確認してみてください。<br>
+                空欄で送信したり、長すぎるタイトルを入力したりして、どんなメッセージが表示されるか試してみましょう！
+            </p>
+        </div>
+    </div>
+</section>
+{% endblock %}
