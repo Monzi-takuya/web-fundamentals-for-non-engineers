@@ -4,7 +4,7 @@
 
 前章でHTMLによるWebページの骨組み作りを学びました。HTMLが建物の設計図や骨格だとすれば、**CSS**（Cascading Style Sheets）は内装・外装・装飾を担当します。
 
-CSSにより、HTMLで構築された構造に色彩、レイアウト、アニメーションを加えて、ユーザーにとって美しく使いやすいWebページを実現できます。また、レスポンシブデザインにより、スマートフォンからデスクトップまで、あらゆるデバイスで最適な表示を提供できます。
+CSSにより、HTMLで構築された構造に色彩、レイアウト、アニメーションを適用して、ユーザーインターフェースを構築できます。また、レスポンシブデザインにより、スマートフォンからデスクトップまで、あらゆるデバイスで最適な表示を提供できます。
 
 この章では、CSSの役割、レスポンシブデザイン、CSSフレームワーク、そしてWebディレクターとしてのデザイン要件定義について学びます。
 
@@ -107,7 +107,6 @@ CSSは「化粧や身だしなみの指示書」のようなものです。
 - セレクター = 対象（「髪の毛に」「顔に」）
 - プロパティ = 部位（「色を」「形を」）
 - 値 = 具体的な指示（「茶色に」「丸く」）
-```
 
 **主要なセレクター：**
 
@@ -145,371 +144,107 @@ Flexboxは「弁当箱の仕切り」のようなものです。
 - **可変サイズ**: 残りスペースに応じて大きさが変わる仕切り
 - **配置**: 左寄せ、中央、右寄せ、均等配置
 
-**Webディレクターとしてのポイント：**
-Flexboxを使うことで、デバイスサイズに関係なく美しいレイアウトが実現できます。
-    border-radius: 6px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.search-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-}
-```
-
-**Flexboxの主要プロパティ：**
-```css
-.flex-container {
-    display: flex;
-    
-    /* 主軸方向 */
-    flex-direction: row; /* row | column | row-reverse | column-reverse */
-    
-    /* 主軸の配置 */
-    justify-content: center; /* flex-start | flex-end | center | space-between | space-around */
-    
-    /* 交差軸の配置 */
-    align-items: center; /* flex-start | flex-end | center | baseline | stretch */
-    
-    /* 改行 */
-    flex-wrap: wrap; /* nowrap | wrap | wrap-reverse */
-    
-    /* 間隔 */
-    gap: 1rem; /* 要素間の隙間 */
-}
-
-.flex-item {
-    /* 伸縮性 */
-    flex: 1; /* flex-grow flex-shrink flex-basis の短縮記法 */
-    
-    /* 個別の交差軸配置 */
-    align-self: flex-end;
-}
-```
+**Flexboxの主要概念：**
+- **主軸（main axis）**: 要素が並ぶ方向（横または縦）
+- **交差軸（cross axis）**: 主軸に垂直な方向
+- **flex-direction**: 主軸の方向を決定
+- **justify-content**: 主軸方向の配置を制御
+- **align-items**: 交差軸方向の配置を制御
+- **flex-wrap**: 要素の折り返しを制御
+- **gap**: 要素間の間隔を設定
 
 ### CSS Grid：2次元レイアウト
 
-**CSS Grid**は、行と列を持つ2次元レイアウトシステムです。
+**CSS Grid**は、行と列を持つ2次元レイアウトシステムです。Flexboxが1次元（一方向）のレイアウトに適している一方、CSS Gridは複雑な2次元レイアウトを効率的に実現できます。
 
-**求人一覧ページのグリッドレイアウト：**
-```html
-<!-- 求人一覧のHTML -->
-<main class="job-listing">
-    <aside class="sidebar">
-        <h3>絞り込み</h3>
-        <form class="filter-form">
-            <!-- フィルター項目 -->
-        </form>
-    </aside>
-    
-    <section class="job-results">
-        <div class="job-grid">
-            <article class="job-card">
-                <h3>フロントエンドエンジニア</h3>
-                <p class="company">株式会社テックスタート</p>
-                <p class="salary">年収500-700万円</p>
-                <div class="tags">
-                    <span class="tag">React</span>
-                    <span class="tag">TypeScript</span>
-                </div>
-            </article>
-            <!-- 他の求人カード -->
-        </div>
-    </section>
-</main>
-```
-
-```css
-/* グリッドレイアウト */
-.job-listing {
-    display: grid;
-    grid-template-columns: 300px 1fr; /* サイドバー固定、メイン可変 */
-    grid-template-areas: 
-        "sidebar main";
-    gap: 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-}
-
-.sidebar {
-    grid-area: sidebar;
-    background: #f8f9fa;
-    padding: 1.5rem;
-    border-radius: 8px;
-    height: fit-content;
-    position: sticky;
-    top: 2rem; /* スクロール時に固定 */
-}
-
-.job-results {
-    grid-area: main;
-}
-
-.job-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 1.5rem;
-}
-
-.job-card {
-    background: white;
-    border: 1px solid #e1e5e9;
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-}
-
-.job-card:hover {
-    border-color: #007bff;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    transform: translateY(-2px);
-}
-```
+**CSS Gridの主要概念：**
+- **grid-template-columns/rows**: 列・行のサイズを定義
+- **grid-area**: 要素が占める領域を指定
+- **grid-gap**: 要素間の間隔を設定
+- **repeat()**: 同じパターンの繰り返しを効率的に記述
+- **minmax()**: 最小値と最大値を指定した柔軟なサイズ設定
+- **auto-fill/auto-fit**: 利用可能な空間に応じた自動調整
 
 ## レスポンシブデザイン：マルチデバイス対応
 
 ### メディアクエリ：デバイス別スタイル
 
-**レスポンシブデザイン**により、スマートフォンからデスクトップまで最適な表示を実現します。
+**レスポンシブデザイン**により、スマートフォンからデスクトップまで各デバイスに適した表示を実現します。
 
-**ブレークポイントの設計：**
-```css
-/* モバイルファースト設計 */
+**レスポンシブデザインの核心概念：**
 
-/* ベーススタイル（モバイル：375px〜） */
-.search-form {
-    padding: 1rem;
-}
+**1. メディアクエリ（Media Queries）**
+- 画面サイズや解像度に応じてCSSを切り替える仕組み
+- ブレークポイント（画面サイズの区切り点）を設定
+- 一般的なブレークポイント：375px（モバイル）、768px（タブレット）、1024px（デスクトップ）
 
-.form-row {
-    flex-direction: column;
-    gap: 1rem;
-}
+**2. モバイルファースト設計**
+- 最小画面サイズからスタイルを構築
+- 画面が大きくなるにつれて機能やレイアウトを追加
+- パフォーマンスと互換性の向上に寄与
 
-.job-listing {
-    grid-template-columns: 1fr;
-    grid-template-areas: 
-        "sidebar"
-        "main";
-    gap: 1rem;
-}
-
-/* タブレット（768px〜） */
-@media (min-width: 768px) {
-    .search-form {
-        padding: 2rem;
-    }
-    
-    .form-row {
-        flex-direction: row;
-        align-items: flex-end;
-    }
-    
-    .job-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    }
-}
-
-/* デスクトップ（1024px〜） */
-@media (min-width: 1024px) {
-    .job-listing {
-        grid-template-columns: 300px 1fr;
-        grid-template-areas: "sidebar main";
-    }
-    
-    .job-grid {
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    }
-}
-
-/* 大画面（1440px〜） */
-@media (min-width: 1440px) {
-    .job-listing {
-        grid-template-columns: 350px 1fr;
-    }
-    
-    .job-grid {
-        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    }
-}
-```
-
-**レスポンシブ画像：**
-```css
-/* 画像の最適化 */
-.job-card img {
-    width: 100%;
-    height: auto;
-    object-fit: cover; /* 比率を保ちながらトリミング */
-    border-radius: 4px;
-}
-
-/* 高解像度ディスプレイ対応 */
-@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
-    .company-logo {
-        background-image: url('logo@2x.png');
-        background-size: contain;
-    }
-}
-```
+**3. フレキシブルグリッド**
+- 固定ピクセル単位ではなく相対単位（%、rem、vw）を使用
+- コンテナの幅に応じて要素サイズが自動調整
+- レイアウトの破綻を防止
 
 ### フレキシブルユニット：相対的なサイズ指定
 
-**相対単位の活用：**
-```css
-/* フレキシブルなサイズ指定 */
-.container {
-    /* ビューポート相対単位 */
-    width: 90vw; /* ビューポート幅の90% */
-    max-width: 1200px; /* 最大幅を制限 */
-    
-    /* rem: ルート要素のフォントサイズ基準 */
-    padding: 2rem; /* 通常 32px */
-    margin: 1rem auto; /* 上下16px、左右中央 */
-    
-    /* em: 親要素のフォントサイズ基準 */
-    font-size: 1.125em; /* 親要素の112.5% */
-}
+**相対単位の種類と役割：**
 
-/* 動的な高さ設定 */
-.hero-section {
-    height: 100vh; /* ビューポート高の100% */
-    min-height: 400px; /* 最小高さを保証 */
-}
+**1. パーセンテージ（%）**
+- 親要素のサイズに対する相対的な指定
+- レイアウトの基本的な比率制御に使用
 
-/* フルードタイポグラフィ */
-.dynamic-text {
-    font-size: clamp(1rem, 4vw, 2rem); /* 最小1rem、最大2rem、4vwで変動 */
-}
-```
+**2. rem（Root EM）**
+- ルート要素（html）のフォントサイズを基準
+- 一貫したスケーリングとアクセシビリティの向上
+
+**3. em**
+- 親要素のフォントサイズを基準
+- ネストした要素の相対的な調整に使用
+
+**4. ビューポート単位（vw、vh、vmin、vmax）**
+- ブラウザの表示領域（ビューポート）を基準
+- 画面サイズに応じた動的なサイズ調整
+
+**5. clamp()関数**
+- 最小値、推奨値、最大値を指定
+- レスポンシブなサイズ調整の効率化
 
 ## CSSフレームワーク：効率的な開発
 
 ### Bootstrap：コンポーネント重視
 
-**Bootstrap**は、グリッドシステムとコンポーネントライブラリを提供するCSSフレームワークです。
+**Bootstrap**は、事前に構築されたUIコンポーネントとグリッドシステムを提供するCSSフレームワークです。
 
-**Bootstrapグリッドシステム：**
-```html
-<!-- Bootstrap のレスポンシブグリッド -->
-<div class="container">
-    <div class="row">
-        <!-- モバイル：12列、タブレット：6列、デスクトップ：4列 -->
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="job-card">求人1</div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="job-card">求人2</div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="job-card">求人3</div>
-        </div>
-    </div>
-</div>
-```
+**Bootstrapの特徴：**
+- **12カラムグリッドシステム**: レスポンシブレイアウトの標準化
+- **コンポーネントライブラリ**: ボタン、カード、ナビゲーション等の再利用可能なUI要素
+- **ユーティリティクラス**: margin、padding、色彩等の細かな調整
+- **JavaScript統合**: モーダル、ドロップダウン等のインタラクティブ機能
+- **テーマカスタマイズ**: Sassベースのカスタマイズ機能
 
-**Bootstrapコンポーネント：**
-```html
-<!-- ナビゲーションバー -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <div class="container">
-        <a class="navbar-brand" href="/">求人検索アプリ</a>
-        
-        <button class="navbar-toggler" type="button" 
-                data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/search">求人検索</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/companies">企業一覧</a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
-
-<!-- カード -->
-<div class="card">
-    <div class="card-body">
-        <h5 class="card-title">フロントエンドエンジニア</h5>
-        <h6 class="card-subtitle mb-2 text-muted">株式会社テックスタート</h6>
-        <p class="card-text">React・TypeScriptを使用した開発</p>
-        <a href="/jobs/123" class="btn btn-primary">詳細を見る</a>
-    </div>
-</div>
-
-<!-- フォーム -->
-<form>
-    <div class="mb-3">
-        <label for="keyword" class="form-label">キーワード</label>
-        <input type="text" class="form-control" id="keyword">
-    </div>
-    <div class="mb-3">
-        <label for="location" class="form-label">勤務地</label>
-        <select class="form-select" id="location">
-            <option>すべての地域</option>
-            <option>東京</option>
-        </select>
-    </div>
-    <button type="submit" class="btn btn-primary">検索</button>
-</form>
-```
+**適用場面：**
+- 迅速なプロトタイプ開発
+- 標準的なUIデザインで十分なプロジェクト
+- 開発チームのCSS経験が限られている場合
 
 ### Tailwind CSS：ユーティリティファースト
 
 **Tailwind CSS**は、小さなユーティリティクラスを組み合わせてデザインを構築するフレームワークです。
 
-**Tailwindでの同等実装：**
-```html
-<!-- ナビゲーションバー -->
-<nav class="bg-blue-600 text-white p-4">
-    <div class="container mx-auto flex justify-between items-center">
-        <a href="/" class="text-xl font-bold">求人検索アプリ</a>
-        <div class="hidden md:flex space-x-6">
-            <a href="/search" class="hover:text-blue-200 transition">求人検索</a>
-            <a href="/companies" class="hover:text-blue-200 transition">企業一覧</a>
-        </div>
-    </div>
-</nav>
+**Tailwind CSSの特徴：**
+- **ユーティリティファースト**: 単一目的のクラスを組み合わせて構築
+- **カスタマイズ性**: デザインの独自性を保ちながら効率化
+- **PurgeCSS統合**: 未使用CSSの自動削除によるファイルサイズ最適化
+- **設計制約**: デザインシステムの一貫性を保つための制約機能
+- **JIT（Just-In-Time）**: オンデマンドでCSSを生成
 
-<!-- カード -->
-<div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-    <h3 class="text-xl font-semibold text-gray-900 mb-2">
-        フロントエンドエンジニア
-    </h3>
-    <p class="text-gray-600 mb-2">株式会社テックスタート</p>
-    <p class="text-gray-700 mb-4">React・TypeScriptを使用した開発</p>
-    <a href="/jobs/123" 
-       class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
-        詳細を見る
-    </a>
-</div>
-
-<!-- フォーム -->
-<form class="space-y-6">
-    <div>
-        <label class="block text-sm font-medium text-gray-700 mb-2">
-            キーワード
-        </label>
-        <input type="text" 
-               class="w-full px-3 py-2 border border-gray-300 rounded-md 
-                      focus:outline-none focus:ring-2 focus:ring-blue-500">
-    </div>
-    <button type="submit" 
-            class="w-full bg-blue-600 text-white py-2 px-4 rounded-md 
-                   hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-        検索
-    </button>
-</form>
-```
+**適用場面：**
+- 独自性の高いデザインが必要なプロジェクト
+- CSS設計の柔軟性が求められる場合
+- パフォーマンスを重視するプロジェクト
 
 ### フレームワーク選択の基準
 
@@ -547,320 +282,163 @@ flowchart TD
 
 **BEM**は、CSSクラス名に一貫した命名規則を提供する設計手法です。
 
-**BEM命名規則：**
-```css
-/* Block: 独立したコンポーネント */
-.job-card { }
+**BEMの構成要素：**
+- **Block（ブロック）**: 独立したコンポーネント（例：job-card）
+- **Element（要素）**: ブロックの構成要素（例：job-card__title）
+- **Modifier（修飾子）**: ブロックや要素の状態・バリエーション（例：job-card--featured）
 
-/* Element: Blockの構成要素 */
-.job-card__title { }
-.job-card__company { }
-.job-card__salary { }
-.job-card__tags { }
-
-/* Modifier: BlockやElementの状態・バリエーション */
-.job-card--featured { } /* 注目求人 */
-.job-card--urgent { } /* 急募 */
-.job-card__title--large { } /* 大きなタイトル */
-```
-
-**BEMの実装例：**
-```html
-<!-- HTML -->
-<article class="job-card job-card--featured">
-    <h3 class="job-card__title job-card__title--large">
-        フロントエンドエンジニア
-    </h3>
-    <p class="job-card__company">株式会社テックスタート</p>
-    <p class="job-card__salary">年収500-700万円</p>
-    <div class="job-card__tags">
-        <span class="job-card__tag">React</span>
-        <span class="job-card__tag">TypeScript</span>
-    </div>
-</article>
-```
-
-```css
-/* CSS */
-.job-card {
-    background: white;
-    border: 1px solid #e1e5e9;
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-}
-
-.job-card--featured {
-    border-color: #007bff;
-    background: linear-gradient(135deg, #fff, #f8fbff);
-}
-
-.job-card__title {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.5rem;
-}
-
-.job-card__title--large {
-    font-size: 1.5rem;
-}
-
-.job-card__company {
-    color: #666;
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-}
-
-.job-card__salary {
-    color: #007bff;
-    font-weight: 600;
-    margin-bottom: 1rem;
-}
-
-.job-card__tags {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
-
-.job-card__tag {
-    background: #e3f2fd;
-    color: #1976d2;
-    padding: 0.25rem 0.75rem;
-    border-radius: 12px;
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-```
+**BEMの利点：**
+- **予測可能性**: 命名規則により、HTMLとCSSの関係が明確
+- **再利用性**: コンポーネント単位での独立性
+- **保守性**: 変更の影響範囲が限定される
+- **チーム開発**: 一貫した命名によるコミュニケーション向上
 
 ### CSS Custom Properties（CSS変数）
 
 **CSS変数**により、一貫したデザインシステムを構築できます。
 
-```css
-/* デザイントークン（設計における基本要素） */
-:root {
-    /* カラーパレット */
-    --color-primary: #007bff;
-    --color-primary-dark: #0056b3;
-    --color-primary-light: #66b3ff;
-    
-    --color-secondary: #6c757d;
-    --color-success: #28a745;
-    --color-warning: #ffc107;
-    --color-danger: #dc3545;
-    
-    /* グレースケール */
-    --color-gray-50: #f8f9fa;
-    --color-gray-100: #e9ecef;
-    --color-gray-300: #dee2e6;
-    --color-gray-500: #6c757d;
-    --color-gray-700: #495057;
-    --color-gray-900: #212529;
-    
-    /* タイポグラフィ */
-    --font-family-base: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
-    --font-family-heading: 'Roboto', 'Noto Sans JP', sans-serif;
-    
-    --font-size-xs: 0.75rem;   /* 12px */
-    --font-size-sm: 0.875rem;  /* 14px */
-    --font-size-base: 1rem;    /* 16px */
-    --font-size-lg: 1.125rem;  /* 18px */
-    --font-size-xl: 1.25rem;   /* 20px */
-    --font-size-2xl: 1.5rem;   /* 24px */
-    --font-size-3xl: 1.875rem; /* 30px */
-    
-    /* スペーシング */
-    --spacing-xs: 0.25rem;  /* 4px */
-    --spacing-sm: 0.5rem;   /* 8px */
-    --spacing-md: 1rem;     /* 16px */
-    --spacing-lg: 1.5rem;   /* 24px */
-    --spacing-xl: 2rem;     /* 32px */
-    --spacing-2xl: 3rem;    /* 48px */
-    
-    /* ボーダー */
-    --border-radius-sm: 4px;
-    --border-radius-md: 8px;
-    --border-radius-lg: 12px;
-    
-    /* シャドウ */
-    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 8px 25px rgba(0, 0, 0, 0.15);
-    
-    /* アニメーション */
-    --transition-fast: 0.15s ease;
-    --transition-base: 0.3s ease;
-    --transition-slow: 0.5s ease;
-}
+**CSS変数（Custom Properties）の概念：**
+- **デザイントークン**: 色、フォント、スペーシング等の設計要素を変数として管理
+- **一元管理**: :root で定義した変数を全体で共有
+- **動的変更**: JavaScriptからの値変更が可能
+- **ブラウザサポート**: モダンブラウザで標準サポート
 
-/* CSS変数の使用 */
-.job-card {
-    background: white;
-    border: 1px solid var(--color-gray-300);
-    border-radius: var(--border-radius-md);
-    padding: var(--spacing-lg);
-    box-shadow: var(--shadow-sm);
-    transition: all var(--transition-base);
-}
-
-.job-card:hover {
-    border-color: var(--color-primary);
-    box-shadow: var(--shadow-md);
-}
-
-.job-card__title {
-    font-family: var(--font-family-heading);
-    font-size: var(--font-size-xl);
-    color: var(--color-gray-900);
-    margin-bottom: var(--spacing-sm);
-}
-
-.job-card__salary {
-    color: var(--color-primary);
-    font-weight: 600;
-    font-size: var(--font-size-lg);
-}
-```
+**CSS変数の利点：**
+- **保守性**: 変更時の影響が一元的に反映
+- **一貫性**: デザインシステムの統一
+- **効率性**: 値の重複排除
+- **拡張性**: テーマ切り替え等の高度な機能実装
 
 ### ダークモード対応
 
-**CSS変数を活用したダークモード：**
-```css
-/* ライトモード（デフォルト） */
-:root {
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8f9fa;
-    --text-primary: #212529;
-    --text-secondary: #6c757d;
-    --border-color: #dee2e6;
-}
+**ダークモードの実装手法：**
 
-/* ダークモード */
-@media (prefers-color-scheme: dark) {
-    :root {
-        --bg-primary: #1a1a1a;
-        --bg-secondary: #2d2d2d;
-        --text-primary: #ffffff;
-        --text-secondary: #a6a6a6;
-        --border-color: #404040;
-    }
-}
+**1. CSS変数を活用したテーマ切り替え**
+- ライトテーマとダークテーマで異なる値を設定
+- 共通のスタイルは変数を参照して動的に適用
 
-/* または、クラスベースの切り替え */
-[data-theme="dark"] {
-    --bg-primary: #1a1a1a;
-    --bg-secondary: #2d2d2d;
-    --text-primary: #ffffff;
-    --text-secondary: #a6a6a6;
-    --border-color: #404040;
-}
+**2. メディアクエリによる自動検出**
+- `prefers-color-scheme: dark` でOSの設定を検出
+- ユーザーの環境設定に自動的に対応
 
-/* 共通スタイル */
-body {
-    background-color: var(--bg-primary);
-    color: var(--text-primary);
-    transition: background-color var(--transition-base), 
-                color var(--transition-base);
-}
+**3. JavaScript制御による手動切り替え**
+- data属性やクラス名の切り替えで実装
+- ユーザーの好みに応じた細かな制御が可能
 
-.job-card {
-    background: var(--bg-primary);
-    border-color: var(--border-color);
-    color: var(--text-primary);
-}
-```
+**ダークモード設計の考慮点：**
+- **コントラスト比**: 視認性を保つための適切な色彩設計
+- **画像対応**: ダークテーマに適した画像の準備
+- **ブランド一貫性**: 企業カラーとダークモードの両立
 
 ## パフォーマンス最適化
 
 ### CSSの最適化手法
 
-**ファイルサイズ削減：**
-```css
-/* ❌ 非効率なCSS */
-.job-card {
-    background-color: #ffffff;
-    background-image: none;
-    background-repeat: no-repeat;
-    background-position: 0% 0%;
-    background-attachment: scroll;
-}
+**パフォーマンス最適化の核心概念：**
 
-/* ✅ 効率的なCSS */
-.job-card {
-    background: white;
-}
+**1. ファイルサイズ削減**
+- **ショートハンドプロパティ**: 複数プロパティを一つに統合
+- **未使用CSS削除**: 実際に使われていないスタイルを排除
+- **圧縮（Minification）**: 空白・改行・コメントを除去
 
-/* 未使用プロパティの削除 */
-.unused-style {
-    /* 使用されていないスタイルは削除 */
-}
-```
+**2. Critical CSS**
+- **Above-the-fold**: 初回表示エリアの重要なスタイルをインライン化
+- **非同期読み込み**: 重要度の低いCSSは後から読み込み
+- **レンダリングブロック回避**: 初期表示の高速化
 
-**Critical CSS：**
-```html
-<!-- インライン化する重要なCSS -->
-<style>
-    /* Above-the-fold（初回表示エリア）の重要なスタイルのみ */
-    body { font-family: sans-serif; margin: 0; }
-    .header { background: #007bff; color: white; padding: 1rem; }
-    .hero { height: 100vh; display: flex; align-items: center; }
-</style>
+**3. 効率的なセレクター**
+- **セレクターの単純化**: 過度にネストした複雑なセレクターを避ける
+- **IDセレクター**: 高いパフォーマンスだが保守性とのバランスを考慮
+- **ユニバーサルセレクター**: 必要最小限の使用
 
-<!-- その他のCSSは非同期読み込み -->
-<link rel="preload" href="/static/styles.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-```
+## CSSの能力と限界：技術理解の基礎
 
-**CSS削減・圧縮：**
-```css
-/* 開発時（読みやすい形式） */
-.job-card {
-    background-color: white;
-    border: 1px solid #dee2e6;
-    border-radius: 8px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-}
+### CSSでできること
 
-/* 本番環境（圧縮） */
-.job-card{background:#fff;border:1px solid #dee2e6;border-radius:8px;padding:1.5rem;transition:all .3s ease}
-```
+**1. 視覚的デザイン**
+- **色彩設計**: 文字色、背景色、グラデーション
+- **タイポグラフィ**: フォント選択、サイズ、行間、文字間隔
+- **装飾**: 枠線、角丸、影効果
+- **透明度**: opacity、rgba等による透過効果
+
+**2. レイアウト制御**
+- **配置**: position、float、flex、grid による要素配置
+- **サイズ調整**: width、height、margin、padding の制御
+- **Z軸制御**: z-index による重なり順序の管理
+- **スクロール制御**: overflow による表示領域の制御
+
+**3. レスポンシブ対応**
+- **メディアクエリ**: デバイス特性に応じたスタイル切り替え
+- **フレキシブルレイアウト**: 画面サイズに応じた自動調整
+- **相対単位**: デバイスに依存しないサイズ指定
+
+**4. インタラクション効果**
+- **疑似クラス**: :hover、:focus等の状態変化
+- **トランジション**: 状態変化時のアニメーション
+- **キーフレームアニメーション**: 複雑な動的効果
+- **トランスフォーム**: 回転、拡大縮小、移動
+
+### CSSでできないこと
+
+**1. データ処理・ロジック**
+- **条件分岐**: if文相当の複雑な条件処理
+- **ループ処理**: 繰り返し処理（calcやcounter以外）
+- **データベース連携**: 動的データの取得・更新
+- **API通信**: 外部サービスとの通信
+
+**2. ユーザー操作の高度な制御**
+- **フォーム検証**: 入力値の複雑な検証ロジック
+- **イベント処理**: クリック以外の複雑なイベント制御
+- **ページ遷移**: URLの変更や画面遷移
+- **ローカルストレージ**: ブラウザでのデータ永続化
+
+**3. コンテンツの動的生成**
+- **DOM操作**: HTML要素の動的追加・削除
+- **テキスト変更**: 既存コンテンツの内容変更
+- **画像の動的読み込み**: ユーザー操作に応じた画像切り替え
+
+### CSSとJavaScriptの連携が必要な領域
+
+**1. 状態管理**
+- CSSで視覚的変化、JavaScriptで状態制御
+- クラス名の動的変更による表示切り替え
+
+**2. 複雑なアニメーション**
+- CSSでトランジション定義、JavaScriptでタイミング制御
+- パフォーマンスを考慮した適切な役割分担
+
+**3. レスポンシブの高度な制御**
+- CSSでレイアウト、JavaScriptでブレークポイント検知
 
 ## Webディレクターとしての活用方法
 
 ### デザインシステムの要件定義
 
-**デザインシステム要件書の作成：**
+**デザインシステム要件定義の要素：**
 
-```
-CSS・デザインシステム要件書
+**1. カラーパレット設計**
+- プライマリーカラー（ブランドカラー）の定義
+- セカンダリーカラー（サブカラー）の設定
+- グレースケールの段階的定義
+- セマンティックカラー（success/warning/danger/info）
+- アクセシビリティ基準（コントラスト比4.5:1以上）
 
-1. カラーパレット
-   ✅ プライマリー: #007bff（ブランドカラー）
-   ✅ セカンダリー: #6c757d（サブカラー）
-   ✅ グレースケール: 50/100/300/500/700/900
-   ✅ セマンティックカラー: success/warning/danger/info
-   ✅ アクセシビリティ: コントラスト比4.5:1以上
+**2. タイポグラフィシステム**
+- フォントファミリーの選定（日本語対応考慮）
+- フォントサイズスケールの定義
+- 行間・文字間隔の標準化
+- ヒエラルキーの明確化
 
-2. タイポグラフィ
-   ✅ フォントファミリー: Hiragino Sans, Meiryo（日本語）
-   ✅ フォントサイズ: 12/14/16/18/20/24/30px
-   ✅ 行間: 1.4-1.6（可読性確保）
-   ✅ 文字間隔: 適切なletter-spacing設定
+**3. スペーシング・レイアウト設計**
+- 基本単位の設定（通常4px、8pxベース）
+- グリッドシステムの選択
+- ブレークポイントの定義
+- コンテンツ最大幅の設定
 
-3. スペーシング・レイアウト
-   ✅ 基本単位: 4px（4/8/16/24/32/48px）
-   ✅ グリッドシステム: 12カラム
-   ✅ ブレークポイント: 375/768/1024/1440px
-   ✅ 最大幅: 1200px（コンテンツ幅）
-
-4. コンポーネント
-   ✅ ボタン: primary/secondary/outline
-   ✅ フォーム: input/select/textarea/checkbox/radio
-   ✅ カード: default/featured/compact
-   ✅ ナビゲーション: header/sidebar/breadcrumb
-```
+**4. コンポーネント仕様**
+- UI要素の標準化（ボタン、フォーム、カード等）
+- 状態デザイン（hover、focus、disabled等）
+- バリエーションの定義
 
 ### レスポンシブ要件の定義
 
@@ -968,11 +546,12 @@ flowchart LR
 ## まとめ
 
 - **CSS**はHTMLの構造に視覚的デザインとレイアウトを適用する言語で、HTMLとの適切な分離が重要
-- **Flexbox・CSS Grid**により現代的で柔軟なレイアウトを実現、デバイスサイズに応じた最適化が可能
-- **レスポンシブデザイン**はメディアクエリとフレキシブルユニットで、全デバイスでの最適な表示を保証
+- **Flexbox・CSS Grid**により現代的で柔軟なレイアウトを実現、デバイスサイズに応じた調整が可能
+- **レスポンシブデザイン**はメディアクエリとフレキシブルユニットで、全デバイスでの適切な表示を実現
 - **CSSフレームワーク**（Bootstrap・Tailwind）は開発効率とプロジェクト要件に応じて選択
 - **CSS設計手法**（BEM・CSS変数）により保守性が高く一貫したスタイルシステムを構築
-- **パフォーマンス最適化**はCritical CSS・圧縮・未使用コード削除で高速なページ読み込みを実現
-- Webディレクターはデザインシステム要件定義・品質管理・チーム間連携でCSS活用を最大化
+- **パフォーマンス最適化**はCritical CSS・圧縮・未使用コード削除で効率的なページ読み込みを実現
+- **CSSの能力と限界**を理解することで、JavaScriptとの適切な役割分担が可能
+- Webディレクターはデザインシステム要件定義・品質管理・チーム間連携でCSS活用を効率化
 
 次の章では「JavaScript：インタラクションと動的機能」について学び、HTMLとCSSで構築された静的なWebページに、どのように動的な機能とユーザーインタラクションを追加するかを理解していきます。DOM操作、イベント処理、現代的なフロントエンド開発の基礎について、Webディレクターの視点から深掘りします。
