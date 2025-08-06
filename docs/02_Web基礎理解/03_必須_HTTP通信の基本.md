@@ -93,10 +93,10 @@ HTTPリクエストには「何をしたいか」を表す**HTTPメソッド**�
 ```
 検索リクエスト:
 GET /search?keyword=python&location=東京 HTTP/1.1
-Host: jobsearch.example.com
+Host: shop.example.com
 ```
 
-私たちの求人検索アプリケーションから：
+一般的なWebアプリケーションの例：
 ```python
 # app.py より
 @app.route('/search')
@@ -177,10 +177,10 @@ DELETE /account/123 HTTP/1.1
 
 ```mermaid
 flowchart TD
-    A["求人情報の操作"] --> B["GET /jobs<br/>求人一覧を表示"]
-    A --> C["POST /jobs<br/>新しい求人を作成"]
-    A --> D["PUT /jobs/123<br/>求人123を更新"]
-    A --> E["DELETE /jobs/123<br/>求人123を削除"]
+    A["商品情報の操作"] --> B["GET /products<br/>商品一覧を表示"]
+    A --> C["POST /products<br/>新しい商品を作成"]
+    A --> D["PUT /products/123<br/>商品123を更新"]
+    A --> E["DELETE /products/123<br/>商品123を削除"]
 ```
 
 ## HTTPステータスコード：結果報告の数字
@@ -221,13 +221,13 @@ flowchart TD
 
 ### 実際のWebアプリケーションでの例
 
-私たちの求人検索アプリケーションでの健康チェック：
+一般的なWebアプリケーションでの健康チェック：
 
 ```python
 # app.py より
 @app.route('/health')
 def health_check():
-    return {'status': 'OK', 'message': 'Flask求人検索アプリケーションが正常に動作しています'}
+    return {'status': 'OK', 'message': 'Webアプリケーションが正常に動作しています'}
 ```
 
 **正常時のレスポンス：**
@@ -235,7 +235,7 @@ def health_check():
 HTTP/1.1 200 OK
 Content-Type: application/json
 
-{"status": "OK", "message": "Flask求人検索アプリケーションが正常に動作しています"}
+{"status": "OK", "message": "Webアプリケーションが正常に動作しています"}
 ```
 
 **エラー時の例：**
@@ -271,7 +271,7 @@ Content-Type: text/html
 **実際のリクエストヘッダー例（2025年）：**
 ```
 GET /search?keyword=python HTTP/2
-Host: jobsearch.example.com
+Host: shop.example.com
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/avif,*/*;q=0.8
 Accept-Language: ja,en-US;q=0.7,en;q=0.3
@@ -530,7 +530,7 @@ Session Storage を使う場面：
 
 ## 実際のWebアプリケーションでのHTTP通信
 
-私たちの求人検索アプリケーションでの通信例：
+一般的なWebアプリケーションでの通信例：
 
 **検索処理の完全なHTTP通信：**
 ```

@@ -95,7 +95,7 @@ sequenceDiagram
     
     U->>W: 検索リクエスト<br/>keyword=python
     W->>A: プログラム実行
-    A->>D: データ検索<br/>SELECT * FROM jobs WHERE...
+    A->>D: データ検索<br/>SELECT * FROM products WHERE...
     D-->>A: 検索結果データ
     A-->>W: HTML生成
     W-->>U: 動的HTMLレスポンス
@@ -110,19 +110,19 @@ sequenceDiagram
 def search():
     # ユーザーの入力を取得
     keyword = request.args.get('keyword', '').strip()
-    location = request.args.get('location', '').strip()
+    category = request.args.get('category', '').strip()
     
     # データベースから動的に検索
-    jobs = Job.query
+    products = Product.query
     if keyword:
-        jobs = jobs.filter(Job.title.contains(keyword) | 
-                          Job.description.contains(keyword))
-    if location:
-        jobs = jobs.filter(Job.location.contains(location))
+        products = products.filter(Product.name.contains(keyword) | 
+                                 Product.description.contains(keyword))
+    if category:
+        products = products.filter(Product.category.contains(category))
     
     # 結果をHTMLテンプレートに埋め込み
-    return render_template('results.html', jobs=jobs.all(), 
-                         keyword=keyword, location=location)
+    return render_template('results.html', products=products.all(), 
+                         keyword=keyword, category=category)
 ```
 
 ### 静的 vs 動的：選択の基準
@@ -375,13 +375,13 @@ flowchart TD
 
 ## 実際のWebアプリケーション開発例
 
-### 私たちの求人検索アプリケーション
+### 一般的なWebアプリケーション開発例
 
 **技術スタック：**
 ```python
 # app.py - Flask動的Webアプリケーション
 from flask import Flask, render_template, request
-from models import db, Job
+from models import db, Product
 
 app = Flask(__name__)
 
@@ -396,10 +396,10 @@ def static_files(filename):
 def search():
     # データベースからリアルタイム検索
     keyword = request.args.get('keyword', '')
-    jobs = Job.query.filter(Job.title.contains(keyword)).all()
+    products = Product.query.filter(Product.name.contains(keyword)).all()
     
     # テンプレートで動的HTML生成
-    return render_template('results.html', jobs=jobs)
+    return render_template('results.html', products=products)
 ```
 
 **ハイブリッド構成の採用：**

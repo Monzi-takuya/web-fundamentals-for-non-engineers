@@ -71,22 +71,23 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
 }
 ```
 
-**求人応募APIの例：**
+**商品注文APIの例：**
 ```
-POST /api/applications HTTP/2
-Host: jobsearch.example.com
+POST /api/orders HTTP/2
+Host: shop.example.com
 Content-Type: application/json
 Cookie: session_id=abc123
 
 {
-    "jobId": 12345,
-    "applicant": {
+    "productId": 12345,
+    "customer": {
         "name": "田中太郎",
         "email": "tanaka@example.com",
         "phone": "090-1234-5678"
     },
-    "coverLetter": "貴社の求人に応募させていただきます...",
-    "resumeUrl": "https://storage.example.com/resumes/tanaka_resume.pdf"
+    "quantity": 2,
+    "shippingAddress": "東京都渋谷区...",
+    "paymentMethod": "credit_card"
 }
 ```
 
@@ -209,11 +210,11 @@ GET /api/v1/users/123              # ユーザー123の情報取得
 PUT /api/v1/users/123              # ユーザー123の情報更新
 DELETE /api/v1/users/123           # ユーザー123の削除
 
-# 求人情報の管理
-POST /api/v1/jobs                  # 新規求人投稿
-GET /api/v1/jobs?keyword=python    # 求人検索
-PUT /api/v1/jobs/456               # 求人456の更新
-DELETE /api/v1/jobs/456            # 求人456の削除
+# 商品情報の管理
+POST /api/v1/products              # 新規商品登録
+GET /api/v1/products?keyword=laptop # 商品検索
+PUT /api/v1/products/456           # 商品456の更新
+DELETE /api/v1/products/456        # 商品456の削除
 ```
 
 **GraphQL風API（最新トレンド）：**
@@ -345,10 +346,10 @@ flowchart TD
 
 **RESTful API設計例：**
 ```
-GET /api/jobs          # 求人一覧取得
-POST /api/jobs         # 新規求人作成
-PUT /api/jobs/123      # 求人123更新
-DELETE /api/jobs/123   # 求人123削除
+GET /api/products      # 商品一覧取得
+POST /api/products     # 新規商品作成
+PUT /api/products/123  # 商品123更新
+DELETE /api/products/123 # 商品123削除
 ```
 
 **ステータスコード設計：**
