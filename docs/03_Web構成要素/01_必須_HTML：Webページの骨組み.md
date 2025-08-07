@@ -20,7 +20,7 @@
 **SEO要件定義時の会話の変化：**
 - 開発者：「SEO対策をしたいです」
 - あなた（修得前）：「検索で上位に表示されるようにしてください」
-- あなた（修得後）：「**h1タグで主要キーワード**を含むタイトル設定、**metaタグでdescription**最適化、**構造化データ**でリッチスニペット対応をお願いします」
+- あなた（修得後）：「**titleタグで主要キーワード**を含めたページタイトルを設定し、**h1タグでページ主題**を明確にしてください。さらに、**metaタグでdescription**を最適化し、**構造化データ**でリッチスニペット対応もお願いします」
 
 **アクセシビリティ要件の変化：**
 - 以前：「障害者対応をしてください」
@@ -250,7 +250,7 @@ flowchart TD
      alt="求人検索のメインビジュアル">
 
 <!-- 装飾的な画像（代替テキスト不要） -->
-<img src="/static/images/decoration.png" alt="" role="presentation">
+<img src="/static/images/decoration.png" alt="">
 ```
 
 ## メタデータ：検索エンジンとブラウザへの情報
@@ -404,6 +404,8 @@ flowchart TD
         <li aria-current="page">フロントエンドエンジニア</li>
     </ol>
 </nav>
+
+> **補足**: `aria-current="page"`は、現在のページを示します。これにより、スクリーンリーダーの利用者は、自分が今どのページにいるのかを正確に把握できます。
 ```
 
 ## アクセシビリティとHTML
@@ -437,15 +439,17 @@ flowchart TD
 
 **キーボードナビゲーション：**
 ```html
-<!-- フォーカス順序を明確化 -->
+<!-- フォーカス順序が自然なフォーム -->
 <form>
-    <input type="text" tabindex="1" name="keyword" aria-label="検索キーワード">
-    <select tabindex="2" name="location" aria-label="勤務地選択">
+    <input type="text" name="keyword" aria-label="検索キーワード">
+    <select name="location" aria-label="勤務地選択">
         <option value="">すべての地域</option>
         <option value="tokyo">東京</option>
     </select>
-    <button type="submit" tabindex="3">検索実行</button>
+    <button type="submit">検索実行</button>
 </form>
+
+> **補足**: `tabindex`属性を利用してキーボードのフォーカス順序を制御できますが、`tabindex="1"`以上を指定する強制的な順序変更は、ユーザーの混乱を招く可能性があるため**非推奨**です。HTMLの記述順がそのままフォーカス順序になるように実装するのが最も望ましい方法です。
 
 <!-- スキップリンク -->
 <a href="#main-content" class="skip-link">メインコンテンツへスキップ</a>
