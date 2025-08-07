@@ -46,18 +46,28 @@ HTTPを理解することで、Webサイトで発生する様々な問題を技�
 
 **ステートレス**：HTTPは「記憶しない」プロトコルです。
 
+**1回目のリクエスト（完全に独立）:**
 ```mermaid
 sequenceDiagram
-    participant B as ブラウザ
-    participant S as サーバー
+    participant B1 as ブラウザ
+    participant S1 as サーバー
     
-    Note over B,S: 1回目の会話
-    B->>S: こんにちは、トップページください
-    S->>B: はい、トップページです
+    B1->>+S1: GET /index.html
+    S1->>-B1: 200 OK + HTMLページ
     
-    Note over B,S: 2回目の会話
-    B->>S: こんにちは、検索ページください
-    S->>B: はい、検索ページです（誰か覚えてない）
+    Note over S1: 処理完了、何も記憶しない
+```
+
+**2回目のリクエスト（完全に独立）:**
+```mermaid
+sequenceDiagram
+    participant B2 as ブラウザ
+    participant S2 as サーバー
+    
+    B2->>+S2: GET /search.html
+    S2->>-B2: 200 OK + 検索ページ
+    
+    Note over S2: 前回のリクエストを全く覚えていない
 ```
 
 **ステートレスの意味：**
