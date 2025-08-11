@@ -279,44 +279,6 @@ flowchart TD
 
 ## 基本的な設定方法
 
-### VSCodeの初期設定
-
-**1. 日本語化**
-```
-1. 拡張機能アイコンをクリック
-2. "Japanese Language Pack" を検索
-3. インストール後、再起動
-```
-
-**2. Web開発用拡張機能（2025年版）**
-```
-基本拡張機能：
-- HTML CSS Support（HTML/CSS支援）
-- Live Server（ローカルサーバー）
-- Prettier（コード整形）
-- Auto Rename Tag（タグ自動修正）
-
-AI支援拡張機能：
-- GitHub Copilot（コード補完・生成）
-- Claude for VSCode（コード説明・質問）
-- ChatGPT Extension（汎用AI支援）
-
-セキュリティ・品質管理：
-- ESLint（コード品質チェック）
-- SonarLint（セキュリティ検査）
-- GitLens（Git履歴可視化）
-```
-
-**3. 基本設定調整**
-```json
-{
-    "editor.fontSize": 14,          // 文字サイズ
-    "editor.tabSize": 4,            // タブサイズ
-    "editor.wordWrap": "on",        // 行の折り返し
-    "files.autoSave": "afterDelay"  // 自動保存
-}
-```
-
 ### AI機能の基本活用（2025年版）
 
 **1. Cursor でのAI活用**
@@ -327,18 +289,7 @@ AI支援拡張機能：
 3. 「このコードの説明をお願いします」
 ```
 
-**2. VSCode + AI拡張機能での活用**
-```
-GitHub Copilot:
-- Tab キーでコード補完
-- Alt + ] で次の提案
-
-Claude/ChatGPT Extension:
-- コマンドパレット（Ctrl + Shift + P）でAI起動
-- 選択したコードの説明を依頼
-```
-
-**3. AIへの質問例（共通）**
+**2. AIへの質問例（共通）**
 ```
 学習・理解向け：
 - 「このHTMLの構造を教えてください」
@@ -351,7 +302,7 @@ Claude/ChatGPT Extension:
 - 「このファイルの目的は何ですか？」
 ```
 
-**4. 企業利用時の注意**
+**3. 企業利用時の注意**
 ```
 安全な質問例：
 - 一般的なHTMLタグの説明
