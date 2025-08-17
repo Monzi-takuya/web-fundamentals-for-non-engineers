@@ -193,6 +193,65 @@ flowchart TD
     A --> E["DELETE /products/123<br/>商品123を削除"]
 ```
 
+
+<details>
+<summary><strong>実務での疑問：なぜGET/POSTばかり使われるのか？</strong></summary>
+
+**よくある疑問：**
+「理論上はPUT/DELETEもあるのに、実際の開発現場ではGET/POSTばかり使われているのはなぜ？」
+
+**答え：歴史的なブラウザ制約と運用上の都合**
+
+#### GET/POST中心になる理由
+
+**1. HTMLフォームの制約（歴史的経緯）**
+- Webブラウザの`<form>`タグは、今でもGETとPOSTしかサポートしていません
+- そのため、Webサイトでのユーザー操作（フォーム送信）は必然的にGET/POSTになります
+
+**2. ブラウザとネットワーク機器の対応**
+- 企業のネットワーク機器（プロキシ、セキュリティ機器等）がGET/POST以外を制限することがあります
+- 「とりあえずGET/POSTにしておけば動く」という安全策をとる現場が多い
+
+**3. 運用の複雑さ**
+- PUT/DELETEを正しく使うには、より詳細なルール設計が必要
+- チーム全体での理解統一に時間がかかるため、「更新はすべてPOST」で統一する現場も多い
+
+#### PUT/DELETEが活用される場面
+
+**API設計（システム間通信）**
+- スマートフォンアプリとサーバー間の通信
+- SPA（Single Page Application）での画面更新
+- 他のシステムとの連携
+
+```
+例：商品管理システムのAPI
+- GET /api/products → 商品一覧取得
+- POST /api/products → 新商品作成
+- PUT /api/products/123 → 商品123の更新
+- DELETE /api/products/123 → 商品123の削除
+```
+
+#### Webディレクターとしての判断ポイント
+
+**プロジェクトの性質による使い分け：**
+
+**従来型Webサイト（フォーム中心）**
+- GET：ページ表示、検索
+- POST：フォーム送信、データ更新
+
+**モダンWebアプリ（SPA、API活用）**
+- 4つのメソッドをフル活用
+- より直感的で保守性の高いAPI設計が可能
+
+**開発チームとの会話で押さえるポイント：**
+- 「このプロジェクトはAPI中心？フォーム中心？」
+- 「セキュリティやネットワーク要件でメソッド制限はある？」
+- 「開発チームの経験レベルとメンテナンス方針は？」
+
+> **重要**: PUT/DELETEが「使われない」のではなく、プロジェクトの性質と運用要件によって使い分けが決まる、ということを理解しておきましょう。
+
+</details>
+
 ## HTTPステータスコード：結果報告の数字
 
 ### ステータスコードの分類
@@ -278,46 +337,32 @@ Content-Type: text/html
 | **Authorization** | 認証情報 | `Bearer abc123...` |
 | **Cookie** | 前回のアクセス情報 | `session_id=xyz789` |
 
-**実際のリクエストヘッダー例（2025年）：**
+**実際のリクエストヘッダー例：**
 ```
-GET /search?keyword=python HTTP/2
+GET /search?keyword=python HTTP/1.1
 Host: shop.example.com
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/avif,*/*;q=0.8
-Accept-Language: ja,en-US;q=0.7,en;q=0.3
-Accept-Encoding: gzip, deflate, br
-Sec-Fetch-Dest: document
-Sec-Fetch-Mode: navigate
-Sec-Fetch-Site: none
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: ja,en;q=0.5
+Accept-Encoding: gzip, deflate
 Cookie: session_id=abc123; user_pref=dark_mode
 ```
 
-**2025年に追加された新しいヘッダー：**
-- **Accept-Encoding**: `br`（Brotli圧縮）対応
-- **Sec-Fetch-\***: セキュリティ強化ヘッダー
-- **image/webp, image/avif**: 次世代画像フォーマット対応
-
 ### 重要なレスポンスヘッダー
 
-**よく使われるレスポンスヘッダー（2025年版）：**
+**よく使われるレスポンスヘッダー：**
 
 | ヘッダー名 | 意味 | 例 |
 |------------|------|----|
 | **Content-Type** | 返すデータの種類 | `text/html; charset=utf-8` |
 | **Content-Length** | データのサイズ | `1234` |
-| **Content-Encoding** | 圧縮形式 | `br, gzip` |
-| **Set-Cookie** | ブラウザに保存する情報 | `session_id=xyz789; Secure; HttpOnly; SameSite=Strict` |
-| **Cache-Control** | キャッシュの制御 | `max-age=3600, immutable` |
+| **Content-Encoding** | 圧縮形式 | `gzip` |
+| **Set-Cookie** | ブラウザに保存する情報 | `session_id=xyz789; Secure; HttpOnly` |
+| **Cache-Control** | キャッシュの制御 | `max-age=3600` |
 | **Location** | リダイレクト先 | `/login` |
 | **X-Frame-Options** | フレーム埋め込み制御 | `DENY` |
 | **Content-Security-Policy** | コンテンツセキュリティ | `default-src 'self'` |
 | **Strict-Transport-Security** | HTTPS強制 | `max-age=31536000; includeSubDomains` |
-
-**2025年のセキュリティ強化ヘッダー：**
-- **X-Content-Type-Options**: `nosniff`（MIMEタイプ推測防止）
-- **X-XSS-Protection**: `1; mode=block`（XSS攻撃防止）
-- **Referrer-Policy**: `strict-origin-when-cross-origin`（リファラー制御）
-- **Permissions-Policy**: 不要な機能の無効化
 
 ## HTTPS：暗号化による安全な通信
 
@@ -356,7 +401,7 @@ flowchart LR
 - 証明書の詳細: サイト名をクリックして確認可能
 - ⚠️警告: 証明書に問題がある場合
 
-### HTTPSが必要な場面（2025年基準）
+### HTTPSが必要な場面
 
 **必須の場面：**
 - ログインページ
@@ -365,11 +410,10 @@ flowchart LR
 - 管理画面
 - **すべてのページ**（現代の標準）
 
-**2025年のHTTPS要件：**
-- **TLS 1.3以上**必須（TLS 1.2以下は脆弱性あり）
-- **HTTP Strict Transport Security (HSTS)**設定必須
-- **混在コンテンツ**（HTTP リソース）完全排除
-- **Certificate Transparency**対応証明書の使用
+**現代のHTTPS要件：**
+- **最新のTLSバージョン**の使用
+- **信頼できる認証局**発行の証明書
+- **混在コンテンツ**（HTTP リソース）の排除
 
 **ブラウザでの確認方法：**
 ```
