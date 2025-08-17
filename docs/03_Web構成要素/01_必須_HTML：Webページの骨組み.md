@@ -259,32 +259,86 @@ flowchart TD
 
 **メタタグ**は、ページの情報を検索エンジンやブラウザに伝える重要な要素です。本の「奥付」や「帯」のような役割を果たします。
 
+**重要**: `<head>`タグ内の情報は、**画面上のコンテンツとしては表示されません**。ブラウザのタブやブックマーク、検索エンジンの結果画面では表示されますが、Webページ本体には見えない「裏方の情報」です。
+
 **重要なメタタグの例：**
 ```html
 <head>
     <title>Python求人 | 求人検索アプリ</title>
     <meta name="description" content="Python開発者向けの求人情報を検索できます">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
 </head>
 ```
 
 **各メタタグの役割：**
-- **`<title>`**: ページのタイトル（ブラウザのタブに表示）
-- **`description`**: ページの概要（検索結果に表示される説明文）
+- **`<title>`**: ページのタイトル（ブラウザのタブに表示、**検索結果のタイトルとしても使用**）
+- **`description`**: ページの概要（**検索結果の説明文として表示される可能性が高い**）
 - **`viewport`**: スマホ対応のための設定
+- **`robots`**: 検索エンジンのクローリング・インデックス指示
 
 **日常生活での例え：**
 - `<title>` = 本のタイトル（表紙に書かれている）
 - `description` = 本の帯に書かれた内容紹介
 - `viewport` = 本のサイズ設定（文庫本、単行本など）
 
+**検索エンジンでの表示とSEO効果：**
+
+**titleタグの重要性：**
+- 検索結果のクリック可能なタイトルとして表示される
+- ユーザーの検索意図に合致したキーワードを含めることで**クリック率向上**
+- 検索エンジンがページの主要テーマを判断する重要な要素
+
+**descriptionタグの効果：**
+- 検索結果の説明文として表示される（必ずしも保証されないが高確率）
+- 魅力的な説明文は検索結果でのクリック率を大幅に向上
+- **直接的なSEOランキング要因ではないが、流入数に大きく影響**
+
+**robotsタグの指示内容：**
+```html
+<!-- 基本的な設定 -->
+<meta name="robots" content="index, follow">     <!-- インデックス許可、リンク追跡許可 -->
+<meta name="robots" content="noindex, nofollow"> <!-- インデックス禁止、リンク追跡禁止 -->
+<meta name="robots" content="index, nofollow">   <!-- インデックス許可、リンク追跡禁止 -->
+
+<!-- 特殊な指示 -->
+<meta name="robots" content="noarchive">        <!-- キャッシュ保存禁止 -->
+<meta name="robots" content="nosnippet">        <!-- 検索結果での抜粋表示禁止 -->
+```
+
 **Webディレクターとしてのポイント：**
-- **title**: 32文字以内、キーワードを含める
-- **description**: 120文字程度、ページ内容を簡潔に要約
+- **title**: 32文字以内、主要キーワードを前方に配置
+- **description**: 120文字程度、ページ内容を簡潔に要約し、クリックを促す文言を含める
+- **robots**: 会員限定ページやテストページでは適切に制御
+
+### Ctrl+Uでメタタグを実際に確認してみよう
+
+**実践的な確認方法：**
+
+1. **任意のWebサイト**（例：Amazon、楽天、Wikipedia）にアクセス
+2. **Ctrl+U**（Windows）または**Cmd+Option+U**（Mac）を押す
+3. **ページのソースコード**が別タブで表示される
+4. **`<head>`タグ内**を確認する
+
+**確認すべきポイント：**
+```html
+<!-- 実際のWebサイトで見つけられる例 -->
+<title>商品名 | Amazon.co.jp</title>
+<meta name="description" content="商品の詳細説明...">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="SNS用のタイトル">
+```
+
+**日常業務での活用：**
+- 競合サイトのSEO戦略を分析
+- 自社サイトのメタタグ設定確認
+- 開発者とのコミュニケーション時の具体例として活用
 
 ### 構造化データ：検索結果を豊かにする
 
 **構造化データ**とは、検索エンジンにページの内容をより詳しく伝える仕組みです。これにより、検索結果に**リッチスニペット**（星評価、価格、画像など）が表示されます。
+
+**重要**: 構造化データも`<head>`タグ内またはページ内に記述しますが、**画面上には一切表示されません**。検索エンジン専用の情報です。
 
 **構造化データの効果：**
 - **通常の検索結果**: タイトルと説明文のみ
@@ -300,8 +354,72 @@ flowchart TD
 - 商品名だけでなく、カロリー、原材料、価格などが一目で分かる
 - 検索エンジンも同様に、ページの詳細情報を理解できる
 
+**JSON-LD形式の構造化データ例：**
+
+**求人情報の構造化データ：**
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "JobPosting",
+  "title": "Pythonエンジニア",
+  "description": "機械学習・AI開発エンジニア募集",
+  "hiringOrganization": {
+    "@type": "Organization",
+    "name": "株式会社ABC"
+  },
+  "jobLocation": {
+    "@type": "Place",
+    "address": "東京都渋谷区"
+  },
+  "baseSalary": {
+    "@type": "MonetaryAmount",
+    "currency": "JPY",
+    "value": {
+      "@type": "QuantitativeValue",
+      "minValue": 6000000,
+      "maxValue": 12000000,
+      "unitText": "YEAR"
+    }
+  }
+}
+</script>
+```
+
+**商品情報の構造化データ：**
+```html
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": "ワイヤレスイヤホン XYZ-100",
+  "description": "高音質Bluetooth 5.0対応",
+  "brand": "TechCorp",
+  "offers": {
+    "@type": "Offer",
+    "price": "15800",
+    "priceCurrency": "JPY",
+    "availability": "https://schema.org/InStock"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.5",
+    "reviewCount": "127"
+  }
+}
+</script>
+```
+
+**検索結果での表示例：**
+- **求人**: 給与範囲、勤務地、雇用形態が表示
+- **商品**: 価格、在庫状況、評価★が表示
+- **レシピ**: 調理時間、カロリー、評価が表示
+- **イベント**: 日時、場所、チケット価格が表示
+
 **Webディレクターとしてのポイント：**
-構造化データは専門的ですが、SEO効果が高いため、開発者に実装を依頼する価値があります。
+- 構造化データは専門的ですが、**検索結果のクリック率向上に直結**するため、開発者に実装を依頼する価値が高い
+- 業界・業態に応じて適切なSchema.orgタイプを選択（Product、JobPosting、Recipe、Event等）
+- GoogleのRich Results TestやStructured Data Testing Toolで実装確認を依頼
 
 ## SEOとHTML構造
 
@@ -602,7 +720,7 @@ HTML構造要件書
 
 - **HTML**はWebページの骨組みを作るマークアップ言語で、**セマンティック**（意味的）なマークアップが重要
 - **構造化タグ**（header、nav、main、article、section、aside、footer）により、コンテンツの意味を明確化
-- **見出しタグ（h1-h6）**は情報の階層構造を表現し、SEOとアクセシビリティに大きく影響
+- **見出しタグ**（h1-h6）は情報の階層構造を表現し、SEOとアクセシビリティに大きく影響
 - **フォーム要素**は適切なlabel、fieldset、aria属性でアクセシビリティを確保
 - **メタデータ**（title、meta、OGP、構造化データ）により検索エンジンとSNSでの表示を最適化
 - **アクセシビリティ**はWCAG 2.1 AA準拠を目標に、すべてのユーザーが利用できるWebサイトを実現
