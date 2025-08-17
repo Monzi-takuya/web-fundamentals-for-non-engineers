@@ -193,7 +193,7 @@ my_notes.txt
 memo.txt
 TODO.md
 学習メモ.md
-memo
+memo/
 
 # gemini CLI 用
 .gemini/
