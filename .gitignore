@@ -195,6 +195,9 @@ TODO.md
 学習メモ.md
 memo
 
+# gemini CLI 用
+.gemini/
+
 # 一時的な練習ファイル
 temp_*.py
 test_*.html

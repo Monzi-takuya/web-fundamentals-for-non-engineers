@@ -82,7 +82,7 @@ HTMLファイルは、**決まった構造**を持っています。これは建
 
 ```mermaid
 flowchart TD
-    A["<!DOCTYPE html>"] --> B["html要素"]
+    A["!DOCTYPE html"] --> B["html要素"]
     B --> C["head要素"]
     B --> D["body要素"]
     
